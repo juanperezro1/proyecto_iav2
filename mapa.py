@@ -70,6 +70,7 @@ def leer_archivo():
     archivo.close()
     matriz = np.asarray(matriz)
 
+
     return matriz
 
 def Pacman(matrizAyuda1,Solucion):

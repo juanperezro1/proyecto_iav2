@@ -13,12 +13,12 @@ if __name__ == "__main__":
     
 
     
-    search.busqueda_por_profundidad()
+    #search.busqueda_por_profundidad()
     #search.busqueda_por_amplitud()
     #search.busqueda_iterativa_por_profundidad()
     #search.costo_uniforme()
     #search.busqueda_avara()
-    #search.busqueda_a_estrella()
+    search.busqueda_a_estrella()
     
     
 

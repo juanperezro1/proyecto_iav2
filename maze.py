@@ -44,6 +44,14 @@ class Maze:
 
                 if(self.matrizAyuda1[i][j] == 1):    #Bloques
                     self.matriz_muros[i][j] = 1
+                    self.matriz_muros = np.array(self.matriz_muros)
+
+                    matriz_unos = np.ones(len(self.matriz_muros))
+
+                    self.matriz_muros[len(self.matriz_muros)-1] = matriz_unos
+                    #print("tamanoooo",len(self.matriz_muros))
+                    self.matriz_muros[:,len(self.matriz_muros)-1] = matriz_unos
+                    #print(self.matriz_muros)
                     #print("sdasdas",self.matriz_muros)
 
     #Espinaca power
@@ -82,7 +90,7 @@ class Maze:
 
         self.trampas = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         self.beneficio = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0]-1)]
-        self.matriz_muros = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0]-1)]
+        self.matriz_muros = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
 
         """
         self.beneficio = [[0,0,0,0,0,0,0,0],
