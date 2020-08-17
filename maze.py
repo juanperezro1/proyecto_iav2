@@ -56,33 +56,41 @@ class Maze:
 
     #Espinaca power
     def funcion(self,lista_solucion):
-        pass
-        """
+
+        pos_espinaca_lista_solucion = None
         #print(self.matrizAyuda1)
         posicion_espinaca = []
         for i in range(len(self.matrizAyuda1)):
             for j in range(len(self.matrizAyuda1)):
                     if(self.matrizAyuda1[i][j] == 5):
-                        posicion_espinaca.append([i,j])        
+                        posicion_espinaca.append([i,j])
+                        print("qususuqu",i,j)    
+ 
         #cont = 0
         for solucion in lista_solucion:
             for indice in posicion_espinaca:
                 if (solucion[0],solucion[1]) == (indice[0],indice[1]):
                     pos_espinaca_lista_solucion = lista_solucion.index(posicion_espinaca[0])
                 
-        camino_espinaca = lista_solucion[pos_espinaca_lista_solucion:]
+        
+        if pos_espinaca_lista_solucion != None:
+            camino_espinaca = lista_solucion[pos_espinaca_lista_solucion:]
+
+            for i in range(len(self.beneficio)):
+                for j in range(len(self.beneficio)): 
+                    for indice in camino_espinaca:
+                        if([i,j] == [indice[0],indice[1]]):
+                        
+                            self.beneficio[i][j] = 1
+        
+            matriz_beneficio = self.beneficio
+            print("holii",matriz_beneficio)
+        else:
+            pass
         #print(camino_espinaca)
 
-        for i in range(len(self.beneficio)):
-            for j in range(len(self.beneficio)): 
-                for indice in camino_espinaca:
-                    if([i,j] == [indice[0],indice[1]]):
-                        
-                        self.beneficio[i][j] = 1
         
-        matriz_beneficio = self.beneficio
-        print("holii",matriz_beneficio)
-        """
+        
     #Tamaño matrices 
 
     def set_tamano(self):
