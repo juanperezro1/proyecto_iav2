@@ -5,20 +5,16 @@ import numpy as np
 
 class Maze:
 
+    matriz_muros = [[]]
     tamano = []
-    # muro_vertical = [[]]
-    # muro_horizontal = [[]]
     trampas = [[]]
     beneficio = [[]]
     inicio = []
     meta = []
     matrizAyuda1 = []
     lista_solucion = [[]]
-
     matriz_beneficio =[[]]
     
-    matriz_prueba = [[]]
-
 # Caminos libres 0
 # Enemigos(Fantasmas) 4 , Inicio(Mr Pacman) 5 , Meta(Sra Pacman) 6 
 
@@ -35,12 +31,6 @@ class Maze:
 
         for i in range(len(self.matrizAyuda1)):
             for j in range(len(self.matrizAyuda1)):
-            
-                # if(self.matrizAyuda1[i][j] == 1):    #Bloques
-                #     self.muro_horizontal[i][j] = 1
-                #     self.muro_vertical[i][j] = 1
-                #     print("vertiii",self.muro_vertical)
-                #     print("horiiii",self.muro_horizontal)
                 
                 if(self.matrizAyuda1[i][j] == 2):   #Enemigo
                     self.trampas[i][j] = 1
@@ -53,10 +43,8 @@ class Maze:
                     self.meta.append([i,j])
 
                 if(self.matrizAyuda1[i][j] == 1):    #Bloques
-                    self.matriz_prueba[i][j] = 1
-                    #print("sdasdas",self.matriz_prueba)
-
-                    
+                    self.matriz_muros[i][j] = 1
+                    #print("sdasdas",self.matriz_muros)
 
     #Espinaca power
     def funcion(self,lista_solucion):
@@ -91,14 +79,11 @@ class Maze:
 
     def set_tamano(self):
         # Lastly we will fill wall and trap arrays with zero.
-        # self.muro_vertical = [[0 for i in range(self.tamano[0] - 1)] for i in range(self.tamano[0]-1)]
-        # self.muro_horizontal = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0] - 1)]
-        
-
 
         self.trampas = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         self.beneficio = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0]-1)]
-        self.matriz_prueba = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0]-1)]
+        self.matriz_muros = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0]-1)]
+
         """
         self.beneficio = [[0,0,0,0,0,0,0,0],
                           [0,0,0,0,1,1,0,0],
@@ -109,30 +94,25 @@ class Maze:
                           [0,0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0,0]]
         """ 
-    def set_matriz_beneficio(self,matriz_beneficio):
-        self.beneficio = matriz_beneficio
-        #print("holaaa",self.beneficio)
-
-    
 
     def puede_pasar(self, fila, columna, direccion):
         # Check if the player can pass
         if direccion == "derecha":
-            if self.matriz_prueba[fila][columna] == 1:
+            if self.matriz_muros[fila][columna] == 1:
                 return False
             # Return True if there is no blocking wall on derecha side. Otherwise, return False.
-            return self.matriz_prueba[fila][columna] == 0
+            return self.matriz_muros[fila][columna] == 0
         elif direccion == "abajo":
-            if self.matriz_prueba[fila][columna] == 1:
+            if self.matriz_muros[fila][columna] == 1:
                 return False
-            return self.matriz_prueba[fila][columna] == 0
+            return self.matriz_muros[fila][columna] == 0
         elif direccion == "izquierda":
-            if self.matriz_prueba[fila][columna] == 1:
+            if self.matriz_muros[fila][columna] == 1:
                 return False
-            return self.matriz_prueba[fila][columna - 1] == 0
+            return self.matriz_muros[fila][columna - 1] == 0
         elif direccion == "arriba":
-            if self.matriz_prueba[fila][columna] == 1:
+            if self.matriz_muros[fila][columna] == 1:
                 return False
-            return self.matriz_prueba[fila - 1][columna] == 0
+            return self.matriz_muros[fila - 1][columna] == 0
 
 
