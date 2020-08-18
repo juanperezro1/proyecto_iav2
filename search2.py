@@ -1,42 +1,44 @@
 from collections import OrderedDict
+from mapa import Enemigo
 from mapa import Pacman
 from mapa import leer_archivo
 import maze
 import main
+import arbol_solucion
 
 # ############################################## GLOBAL VARIABLES
-graph = None
+graph2 = None
 frontier = []
 visitado = OrderedDict()  # To prevent duplicates, we use OrderedDict
 
 
 def busqueda_por_profundidad():
-    graph.limpiar_padres()
+    graph2.limpiar_padres()
     dfs_bfs_ids_ucs("Depth First Search(DFS):")
 
 
-# def busqueda_por_amplitud():
-#     graph.limpiar_padres()
-#     dfs_bfs_ids_ucs("Breath First Search(BFS):")
+def busqueda_por_amplitud():
+    graph2.limpiar_padres()
+    dfs_bfs_ids_ucs("Breath First Search(BFS):")
 
 
-# def busqueda_iterativa_por_profundidad():
-#     graph.limpiar_padres()
-#     dfs_bfs_ids_ucs("Iterative Deepening Search(IDS):")
+def busqueda_iterativa_por_profundidad():
+    graph2.limpiar_padres()
+    dfs_bfs_ids_ucs("Iterative Deepening Search(IDS):")
 
 
-# def costo_uniforme():
-#     graph.limpiar_padres()
-#     dfs_bfs_ids_ucs("Uniform costo Search(UCS):")
+def costo_uniforme():
+    graph2.limpiar_padres()
+    dfs_bfs_ids_ucs("Uniform costo Search(UCS):")
 
 
 def busqueda_avara():
-    graph.limpiar_padres()
+    graph2.limpiar_padres()
     heuristica("Greedy Best First Search(GBFS):", return_heuristic)
 
 
 def busqueda_a_estrella():
-    graph.limpiar_padres()
+    graph2.limpiar_padres()
     heuristica("A Star Search(A*):", return_cost_and_heuristic)
 
 
@@ -50,7 +52,7 @@ def heuristica(algoritmo, sort_by):
     # Lets clear frontier and visitado, then add raiz element to the frontier.
     frontier.clear()
     visitado.clear()
-    frontier.append(graph.raiz)
+    frontier.append(graph2.raiz)
 
     while len(frontier) > 0:
 
@@ -96,20 +98,20 @@ def dfs_bfs_ids_ucs(algoritmo):
     costo_solucion = 0
     solucion = []
     expanded_nodes = []
-    #iteration = -1
+    iteration = -1
 
     # DFS_BFS_IDS
-    while estado_meta is None: #and iteration <= graph.profundidad_maxima:
+    while estado_meta is None and iteration <= graph2.profundidad_maxima:
 
         # For each iteration, we will increase iteration by one and clear frontier and visitado. Also append raiz nodo.
-        #iteration += 1
+        iteration += 1
         frontier.clear()
         visitado.clear()
-        frontier.append(graph.raiz)
+        frontier.append(graph2.raiz)
 
         # If IDS, we will add iteration number...
-        # if "IDS" in algoritmo:
-        #     expanded_nodes.append("Iteration " + str(iteration) + ":")
+        if "IDS" in algoritmo:
+            expanded_nodes.append("Iteration " + str(iteration) + ":")
 
         while len(frontier) > 0:
 
@@ -133,27 +135,25 @@ def dfs_bfs_ids_ucs(algoritmo):
 
             # Lets add all child nodos of the actual element to the end of the list...
             # If IDS, we need to add child nodos according to the iteration number.
+            if "IDS" in algoritmo:
+                padres = nodo_actual
+                for i in range(iteration):
+                    # If padres is not none, iterate to upper padres.
+                    padres = padres if padres is None else padres.padres
 
-            #####Cosa extraña_______________________
-            # if "IDS" in algoritmo:
-            #     padres = nodo_actual
-            #     # for i in range(iteration):
-            #         # If padres is not none, iterate to upper padres.
-            #     padres = padres if padres is None else padres.padres
-
-            #     if padres is None:
-            #         add_to_frontier(nodo_actual, "DFS")
-            # # Else, we add all child nodos.
-            # else:
-            add_to_frontier(nodo_actual, algoritmo)
+                if padres is None:
+                    add_to_frontier(nodo_actual, "DFS")
+            # Else, we add all child nodos.
+            else:
+                add_to_frontier(nodo_actual, algoritmo)
 
         # Add all visitado nodos to expanded nodos, before clearing it.
         for nodo in visitado:
             expanded_nodes.append(nodo)
 
         # We will continue only if this is an IDS search...
-        # if "IDS" not in algoritmo:
-        #     break
+        if "IDS" not in algoritmo:
+            break
 
     # Check if DFS_BFS_IDS was successful...
     if estado_meta is None:
@@ -175,7 +175,6 @@ def dfs_bfs_ids_ucs(algoritmo):
 def add_to_frontier(nodo_actual, algoritmo):
     # If the child nodos are not None AND if they are not in visitado, we will add them to the frontier.
     nodes_to_add = []
-    
     if nodo_actual.derecha is not None and not es_visitado(nodo_actual.derecha):
         nodes_to_add.append(set_parent(nodo_actual, nodo_actual.derecha, algoritmo))
     if nodo_actual.abajo is not None and not es_visitado(nodo_actual.abajo):
@@ -209,7 +208,7 @@ def es_visitado(nodo):
 
 
 def es_meta(nodo):
-    for goal in graph.laberinto.meta:
+    for goal in graph2.laberinto.meta_enemigo:
         if goal[0] == nodo.x and goal[1] == nodo.y:
             return True
     return False
@@ -232,27 +231,29 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
     #print("aquuuuu toy",lista_solucion)
 
     print("\nExpanded nodos (" + str(len(expanded_nodes)) + " nodos):", end=" ")
-
-    # if "IDS" in algoritmo:
-    #     print()
-    #     for i in range(len(expanded_nodes) - 1):
-    #         if type(expanded_nodes[i+1]) == str:
-    #             print(expanded_nodes[i])
-    #         else:
-    #             print(expanded_nodes[i], end=" ")
-    
-    for nodo in expanded_nodes:
-        print(nodo, end=" ")
+    if "IDS" in algoritmo:
+        print()
+        for i in range(len(expanded_nodes) - 1):
+            if type(expanded_nodes[i+1]) == str:
+                print(expanded_nodes[i])
+            else:
+                print(expanded_nodes[i], end=" ")
+    else:
+        for nodo in expanded_nodes:
+            print(nodo, end=" ")
     print("\n")
     
     reve = maze.Maze()
     reve.funcion(lista2)
+    arbol_solucion.lista_solucion(lista_solucion)
 
     #main.recibir_lista_solucion(lista2)
 
 
     Pacman(leer_archivo(),lista_solucion)
 
+
+    
 
 def return_cost(nodo):
     return nodo.costo

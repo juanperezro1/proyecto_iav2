@@ -65,13 +65,17 @@ class Espinaca(pygame.sprite.Sprite):
 
 
 def leer_archivo():
-    archivo = open("matrizMapa.txt")
+    archivo = open("m12.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
 
 
     return matriz
+
+
+def enemigo(matrizAyuda1,Solucion):
+    pass
 
 def Pacman(matrizAyuda1,Solucion):
     os.environ["SDL_VIDEO_CENTERED"] = "1"
@@ -90,11 +94,11 @@ def Pacman(matrizAyuda1,Solucion):
             if (matrizAyuda1[i][j] == 3):
                 jugador = Jugador(i*pixel,j*pixel)
                 jugador.dibujarJugador(ventana)
-            
+            """
             if (matrizAyuda1[i][j] == 2):
                 enemigo = Enemigo(i*pixel,j*pixel)
                 enemigo.dibujar_enemigo(ventana)
-            """
+            
             if (matrizAyuda1[i][j] == 4):
                 sra_pacman = Sra_pacman(i*pixel,j*pixel)
                 sra_pacman.dibujar_sra_pacman(ventana)
@@ -103,33 +107,27 @@ def Pacman(matrizAyuda1,Solucion):
                 espinaca = Espinaca(i*pixel,j*pixel)
                 espinaca.dibujar_espinaca(ventana)
 
-            
-
-    
     pygame.display.set_caption("Pacman Univalle")       
     pygame.display.update()
 
     for i in Solucion:
         jugadorAct = Jugador(pixel*i[0],pixel*i[1])
-
         time.sleep(0.5)
         rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
         actualizarJugador(jugadorAct,ventana)
         pygame.draw.rect(ventana,colorF,rectangulo)
 
-    """
+    """    
     for i in range(len(matrizAyuda1)):
         for j in range(len(matrizAyuda1)):
            if (matrizAyuda1[i][j] == 2):
-                enemigo = Enemigo(i*pixel,j*pixel-1)
-            
-                
-                rectangulo = pygame.Rect(pixel*i,pixel*i,pixel,pixel)
-                actualizarJugador(enemigo,ventana)
-                pygame.draw.rect(ventana,colorF,rectangulo)
-    """        
-        
 
+                enemigo = Enemigo(i*pixel-pixel,j*pixel)
+            
+                rectangulo = pygame.Rect(pixel*i,pixel*j,pixel,pixel)
+                actualizar_enemigo(enemigo,ventana)
+                pygame.draw.rect(ventana,colorF,rectangulo)
+    """
 
     while True:
         for evento in pygame.event.get():
@@ -137,14 +135,14 @@ def Pacman(matrizAyuda1,Solucion):
                 pygame.quit()
                 sys.exit()
 
+
 def actualizarJugador(jugador,superficie):
         jugador.dibujarJugador(superficie)
-        
         pygame.display.update()
 
 """
 def actualizar_enemigo(enemigo,superficie):
         enemigo.dibujar_enemigo(superficie)
         pygame.display.update()
-"""    
-        
+"""
+  

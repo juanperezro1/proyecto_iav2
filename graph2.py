@@ -25,7 +25,7 @@ class Nodo:
     def set_costo(self,costo_nuevo):
         self.costo = costo_nuevo
 
-class Graph:
+class Graph2:
 
     nodos = []  # Keeping all nodos in a list to prevent duplicate nodos.
     laberinto = None
@@ -33,7 +33,7 @@ class Graph:
     def __init__(self):
         # Creating the graph.
         self.laberinto = Maze()
-        self.raiz = self.crear_nodo(self.laberinto.inicio[0], self.laberinto.inicio[1])
+        self.raiz = self.crear_nodo(self.laberinto.inicio_enemigo[0], self.laberinto.inicio_enemigo[1])
 
         # Finding maximum depth.
         self.profundidad_maxima = self.encuentra_maxima_profundidad() - 1
@@ -54,21 +54,19 @@ class Graph:
         # Adding the nodo into the nodos list.
         self.nodos.append(nodo)
 
-        
+        """
         # Setting the costo 1 if it is not a trap square.
         if self.laberinto.trampas[nodo.x][nodo.y] == 1:
             nodo.costo = 7
         else:
             nodo.costo = 1
-        
-        
         """
+        
         if self.laberinto.beneficio[nodo.x][nodo.y] == 1:
             nodo.costo = 0.5
         else:
 
             nodo.costo = 1
-        """
         
 
         # Setting all child nodos.
@@ -135,7 +133,7 @@ class Graph:
         for nodo in self.nodos:
             # Select minimum distance to a closest goal...
             costo_total = sys.maxsize
-            for goal in self.laberinto.meta:
+            for goal in self.laberinto.meta_enemigo:
                 costo = 0
                 distancia_vertical = goal[1] - nodo.y
                 distancia_horizontal = goal[0] - nodo.x

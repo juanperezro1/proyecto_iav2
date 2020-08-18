@@ -10,8 +10,11 @@ class Maze:
     trampas = [[]]
     beneficio = [[]]
     inicio = []
+    inicio_enemigo = []
     meta = []
+    meta_enemigo = []
     matrizAyuda1 = []
+    matriz_beneficio = [[]]
     lista_solucion = [[]]
     matriz_beneficio =[[]]
     
@@ -34,10 +37,14 @@ class Maze:
                 
                 if(self.matrizAyuda1[i][j] == 2):   #Enemigo
                     self.trampas[i][j] = 1
+                    self.inicio_enemigo.append(i)
+                    self.inicio_enemigo.append(j)
 
                 if(self.matrizAyuda1[i][j] == 3):  #Inicio
                     self.inicio.append(i)
                     self.inicio.append(j)
+                    
+                    self.meta_enemigo.append([i,j])
             
                 if(self.matrizAyuda1[i][j] == 4):   #Meta
                     self.meta.append([i,j])
@@ -54,6 +61,9 @@ class Maze:
                     #print(self.matriz_muros)
                     #print("sdasdas",self.matriz_muros)
 
+                if(self.matrizAyuda1[i][j] == 5):   #Enemigo
+                    self.beneficio[i][j] = 1
+
     #Espinaca power
     def funcion(self,lista_solucion):
 
@@ -64,17 +74,16 @@ class Maze:
             for j in range(len(self.matrizAyuda1)):
                     if(self.matrizAyuda1[i][j] == 5):
                         posicion_espinaca.append([i,j])
-                        print("qususuqu",i,j)    
- 
-        #cont = 0
+                            
         for solucion in lista_solucion:
             for indice in posicion_espinaca:
                 if (solucion[0],solucion[1]) == (indice[0],indice[1]):
                     pos_espinaca_lista_solucion = lista_solucion.index(posicion_espinaca[0])
+                    print(pos_espinaca_lista_solucion)
                 
-        
         if pos_espinaca_lista_solucion != None:
             camino_espinaca = lista_solucion[pos_espinaca_lista_solucion:]
+            print(camino_espinaca)
 
             for i in range(len(self.beneficio)):
                 for j in range(len(self.beneficio)): 
@@ -82,24 +91,24 @@ class Maze:
                         if([i,j] == [indice[0],indice[1]]):
                         
                             self.beneficio[i][j] = 1
+                            #print(self.beneficio)
         
-            matriz_beneficio = self.beneficio
-            print("holii",matriz_beneficio)
+            self.beneficio = self.beneficio
+            #print(self.beneficio)
+            #print("holii",self.matriz_beneficio)
         else:
             pass
         #print(camino_espinaca)
 
-        
-        
     #Tamaño matrices 
 
     def set_tamano(self):
         # Lastly we will fill wall and trap arrays with zero.
 
         self.trampas = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
-        self.beneficio = [[0 for i in range(self.tamano[0]-1)] for i in range(self.tamano[0]-1)]
+        self.beneficio = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         self.matriz_muros = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
-
+        
         """
         self.beneficio = [[0,0,0,0,0,0,0,0],
                           [0,0,0,0,1,1,0,0],
