@@ -69,7 +69,7 @@ def heuristica(algoritmo, sort_by):
         # print(nodo_actual, nodo_actual.padres)
 
         # Add to frontier as in BFS.
-        add_to_frontier(nodo_actual, "BFS")
+        add_to_frontier(nodo_actual, "GBFS")
 
     # Check if GBFS was successful...
     if estado_meta is not None:

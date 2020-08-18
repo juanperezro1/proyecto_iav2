@@ -36,7 +36,7 @@ class Graph:
         self.raiz = self.crear_nodo(self.laberinto.inicio[0], self.laberinto.inicio[1])
 
         # Finding maximum depth.
-        self.profundidad_maxima = self.encuentra_maxima_profundidad() - 1
+        #self.profundidad_maxima = self.encuentra_maxima_profundidad() - 1
 
         # Creating heuristica...
         self.crear_heuristica()
@@ -105,20 +105,20 @@ class Graph:
                 return nodo
         return None
 
-    def encuentra_maxima_profundidad(self):
-        profundidad_maxima = 0
+    # def encuentra_maxima_profundidad(self):
+    #     profundidad_maxima = 0
 
-        for nodo in self.nodos:
-            nodo_actual = nodo
-            profundidad_local = 0
-            while nodo_actual is not None:
-                nodo_actual = nodo_actual.padres
-                profundidad_local += 1
+    #     for nodo in self.nodos:
+    #         nodo_actual = nodo
+    #         profundidad_local = 0
+    #         while nodo_actual is not None:
+    #             nodo_actual = nodo_actual.padres
+    #             profundidad_local += 1
 
-            # If profundidad_local is greater, we will set it as profundidad_maxima.
-            profundidad_maxima = max(profundidad_maxima, profundidad_local)
+    #         # If profundidad_local is greater, we will set it as profundidad_maxima.
+    #         profundidad_maxima = max(profundidad_maxima, profundidad_local)
 
-        return profundidad_maxima
+    #     return profundidad_maxima
 
     def get_nodo_costo(self, x, y):
         for nodo in self.nodos:
