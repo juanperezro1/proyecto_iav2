@@ -65,7 +65,7 @@ class Espinaca(pygame.sprite.Sprite):
 
 
 def leer_archivo():
-    archivo = open("m12.txt")
+    archivo = open("matrizMapa.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)

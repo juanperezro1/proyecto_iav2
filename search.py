@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from mapa import Pacman
 from mapa import leer_archivo
-import maze
+from maze import Maze
 import main
 
 # ############################################## GLOBAL VARIABLES
@@ -162,6 +162,7 @@ def dfs_bfs_ids_ucs(algoritmo):
 
     # We need to calculate the costo of the solucion AND get the solucion itself...
     actual = estado_meta
+
     while actual is not None:
         costo_solucion += actual.costo
         solucion.insert(0, actual)
@@ -215,10 +216,12 @@ def es_meta(nodo):
     return False
 
 lista_solucion = []
-lista2 = []
+#lista2 = []
 def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
+
+
     print(algoritmo)
-    print("costo of the solucion:", costo_solucion)
+    #print("costo of the solucion:", costo_solucion)
     print("The solucion path (" + str(len(solucion)) + " nodos):", end=" ")
     
     ##Imprime el camino para llegar a la meta
@@ -226,7 +229,7 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
     for nodo in solucion:
         print(nodo, end=" ")
         lista_solucion.append([nodo.x,nodo.y])
-        lista2.append([nodo.x,nodo.y])
+        #lista2.append([nodo.x,nodo.y])
 
     #actualizar_mapa(matriz_actualizar)
     #print("aquuuuu toy",lista_solucion)
@@ -244,14 +247,11 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
     for nodo in expanded_nodes:
         print(nodo, end=" ")
     print("\n")
-    
-    reve = maze.Maze()
-    reve.funcion(lista2)
 
-    #main.recibir_lista_solucion(lista2)
-
-
+    maze = Maze()
+    maze.poder_espinaca(lista_solucion,costo_solucion)
     Pacman(leer_archivo(),lista_solucion)
+    
 
 
 def return_cost(nodo):

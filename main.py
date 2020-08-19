@@ -9,6 +9,7 @@ import threading
 if __name__ == "__main__":
     # Setting graph we initiated to search class...
     graph = Graph()
+    
     search.graph = graph
 
     #graph2 = Graph2()

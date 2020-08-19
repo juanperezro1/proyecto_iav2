@@ -22,8 +22,8 @@ class Nodo:
     def get_posicion(self):
         return [self.x, self.y]
 
-    def set_costo(self,costo_nuevo):
-        self.costo = costo_nuevo
+    # def set_costo(self,costo_nuevo):
+    #     self.costo = costo_nuevo
 
 class Graph:
 
@@ -54,21 +54,21 @@ class Graph:
         # Adding the nodo into the nodos list.
         self.nodos.append(nodo)
 
-        
+        """
         # Setting the costo 1 if it is not a trap square.
         if self.laberinto.trampas[nodo.x][nodo.y] == 1:
             nodo.costo = 7
         else:
             nodo.costo = 1
-        
-        
         """
+        
         if self.laberinto.beneficio[nodo.x][nodo.y] == 1:
-            nodo.costo = 0.5
+
+            nodo.costo = 1
         else:
 
             nodo.costo = 1
-        """
+        
         
 
         # Setting all child nodos.

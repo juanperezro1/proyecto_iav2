@@ -16,7 +16,6 @@ class Maze:
     matrizAyuda1 = []
     matriz_beneficio = [[]]
     lista_solucion = [[]]
-    matriz_beneficio =[[]]
     
 # Caminos libres 0
 # Enemigos(Fantasmas) 4 , Inicio(Mr Pacman) 5 , Meta(Sra Pacman) 6 
@@ -65,10 +64,11 @@ class Maze:
                     self.beneficio[i][j] = 1
 
     #Espinaca power
-    def funcion(self,lista_solucion):
+
+    def poder_espinaca(self,lista_solucion,costo_solucion):
 
         pos_espinaca_lista_solucion = None
-        #print(self.matrizAyuda1)
+
         posicion_espinaca = []
         for i in range(len(self.matrizAyuda1)):
             for j in range(len(self.matrizAyuda1)):
@@ -79,47 +79,41 @@ class Maze:
             for indice in posicion_espinaca:
                 if (solucion[0],solucion[1]) == (indice[0],indice[1]):
                     pos_espinaca_lista_solucion = lista_solucion.index(posicion_espinaca[0])
-                    print(pos_espinaca_lista_solucion)
+                    
                 
         if pos_espinaca_lista_solucion != None:
             camino_espinaca = lista_solucion[pos_espinaca_lista_solucion:]
-            print(camino_espinaca)
-
+            
             for i in range(len(self.beneficio)):
                 for j in range(len(self.beneficio)): 
                     for indice in camino_espinaca:
                         if([i,j] == [indice[0],indice[1]]):
                         
                             self.beneficio[i][j] = 1
-                            #print(self.beneficio)
-        
-            self.beneficio = self.beneficio
-            #print(self.beneficio)
-            #print("holii",self.matriz_beneficio)
+                            
+            matriz_power_espinaca = self.beneficio
+
+            contador_poder = 0
+            
+            for i in range(len(matriz_power_espinaca)):
+                for j in range(len(matriz_power_espinaca)):
+                    if(matriz_power_espinaca[i][j] == 1):
+                        contador_poder += 0.5
+                    
+            costo_con_poder = abs(costo_solucion - contador_poder)
+            print("El costo con el poder de la espinaca es: ",costo_con_poder)
+
         else:
-            pass
-        #print(camino_espinaca)
+            print("El costo de la solución es: ",costo_solucion)
 
     #Tamaño matrices 
 
     def set_tamano(self):
         # Lastly we will fill wall and trap arrays with zero.
-
         self.trampas = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         self.beneficio = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         self.matriz_muros = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         
-        """
-        self.beneficio = [[0,0,0,0,0,0,0,0],
-                          [0,0,0,0,1,1,0,0],
-                          [0,0,0,0,0,1,1,0],
-                          [0,0,0,0,0,0,1,0],
-                          [0,0,0,0,0,1,1,0],
-                          [0,0,0,1,1,1,0,0],
-                          [0,0,0,0,0,0,0,0],
-                          [0,0,0,0,0,0,0,0]]
-        """ 
-
     def puede_pasar(self, fila, columna, direccion):
         # Check if the player can pass
         if direccion == "derecha":
