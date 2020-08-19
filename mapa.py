@@ -65,7 +65,7 @@ class Espinaca(pygame.sprite.Sprite):
 
 
 def leer_archivo():
-    archivo = open("matrizMapa.txt")
+    archivo = open("m12.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
@@ -112,7 +112,7 @@ def Pacman(matrizAyuda1,Solucion):
 
     for i in Solucion:
         jugadorAct = Jugador(pixel*i[0],pixel*i[1])
-        time.sleep(0.5)
+        time.sleep(1)
         rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
         actualizarJugador(jugadorAct,ventana)
         pygame.draw.rect(ventana,colorF,rectangulo)
