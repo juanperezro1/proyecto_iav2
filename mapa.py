@@ -12,6 +12,10 @@ pixel = 70
 colorLinea = (57, 255, 20)
 # y = x, x = y
 
+class Juego(object):
+    def __init__(self):
+        self.game_over = False
+
 class Muro(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
         self.imagenMuro = pygame.image.load("muro.jpg")
@@ -32,7 +36,6 @@ class Jugador(pygame.sprite.Sprite):
     def dibujarJugador(self, superficie):
         superficie.blit(self.imagenEnemigo, self.rect)
         
-
 class Sra_pacman(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
         self.imagenLlave = pygame.image.load("srapacman.png")
@@ -65,14 +68,11 @@ class Espinaca(pygame.sprite.Sprite):
 
 
 def leer_archivo():
-    archivo = open("m12.txt")
+    archivo = open("matrizMapa.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
-
-
     return matriz
-
 
 def enemigo(matrizAyuda1,Solucion):
     pass
@@ -84,17 +84,13 @@ def Pacman(matrizAyuda1,Solucion):
     ventana = pygame.display.set_mode((pixel * len(matrizAyuda1), pixel * len(matrizAyuda1)))
     
     ventana.fill(colorF)
-
+    
     for i in range(len(matrizAyuda1)):
         for j in range(len(matrizAyuda1)):
             if (matrizAyuda1[i][j] == 1):
                 muro = Muro(i * pixel, j * pixel)
                 muro.dibujarMuro(ventana)
-            """
-            if (matrizAyuda1[i][j] == 3):
-                jugador = Jugador(i*pixel,j*pixel)
-                jugador.dibujarJugador(ventana)
-            """
+
             if (matrizAyuda1[i][j] == 2):
                 enemigo = Enemigo(i*pixel,j*pixel)
                 enemigo.dibujar_enemigo(ventana)
@@ -112,22 +108,10 @@ def Pacman(matrizAyuda1,Solucion):
 
     for i in Solucion:
         jugadorAct = Jugador(pixel*i[0],pixel*i[1])
-        time.sleep(1)
+        time.sleep(0.5)
         rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
         actualizarJugador(jugadorAct,ventana)
         pygame.draw.rect(ventana,colorF,rectangulo)
-
-    """    
-    for i in range(len(matrizAyuda1)):
-        for j in range(len(matrizAyuda1)):
-           if (matrizAyuda1[i][j] == 2):
-
-                enemigo = Enemigo(i*pixel-pixel,j*pixel)
-            
-                rectangulo = pygame.Rect(pixel*i,pixel*j,pixel,pixel)
-                actualizar_enemigo(enemigo,ventana)
-                pygame.draw.rect(ventana,colorF,rectangulo)
-    """
 
     while True:
         for evento in pygame.event.get():
@@ -135,14 +119,14 @@ def Pacman(matrizAyuda1,Solucion):
                 pygame.quit()
                 sys.exit()
 
-
+        """
+        colision =  jugadorAct.rect.colliderect(enemigo)
+        print("Collision",colision)
+        """
+        
 def actualizarJugador(jugador,superficie):
         jugador.dibujarJugador(superficie)
         pygame.display.update()
 
-"""
-def actualizar_enemigo(enemigo,superficie):
-        enemigo.dibujar_enemigo(superficie)
-        pygame.display.update()
-"""
+
   

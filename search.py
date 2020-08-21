@@ -4,7 +4,6 @@ from mapa import leer_archivo
 from maze import Maze
 import main
 
-# ############################################## GLOBAL VARIABLES
 graph = None
 frontier = []
 visitado = OrderedDict()  # To prevent duplicates, we use OrderedDict
@@ -14,22 +13,6 @@ def busqueda_por_profundidad():
     graph.limpiar_padres()
     dfs_bfs_ids_ucs("Depth First Search(DFS):")
 
-
-# def busqueda_por_amplitud():
-#     graph.limpiar_padres()
-#     dfs_bfs_ids_ucs("Breath First Search(BFS):")
-
-
-# def busqueda_iterativa_por_profundidad():
-#     graph.limpiar_padres()
-#     dfs_bfs_ids_ucs("Iterative Deepening Search(IDS):")
-
-
-# def costo_uniforme():
-#     graph.limpiar_padres()
-#     dfs_bfs_ids_ucs("Uniform costo Search(UCS):")
-
-
 def busqueda_avara():
     graph.limpiar_padres()
     heuristica("Greedy Best First Search(GBFS):", return_heuristic)
@@ -38,8 +21,7 @@ def busqueda_avara():
 def busqueda_a_estrella():
     graph.limpiar_padres()
     heuristica("A Star Search(A*):", return_cost_and_heuristic)
-
-
+    
 def heuristica(algoritmo, sort_by):
 
     # Variables
@@ -69,7 +51,7 @@ def heuristica(algoritmo, sort_by):
         # print(nodo_actual, nodo_actual.padres)
 
         # Add to frontier as in BFS.
-        add_to_frontier(nodo_actual, "GBFS")
+        add_to_frontier(nodo_actual, "BFS")
 
     # Check if GBFS was successful...
     if estado_meta is not None:
@@ -115,12 +97,13 @@ def dfs_bfs_ids_ucs(algoritmo):
 
             # If DFS or IDS, we will remove last nodo from the frontier.
             # IF BFS, we will remove the first nodo from the frontier.
-            if "DFS" in algoritmo or "IDS" in algoritmo:
+            if "DFS" in algoritmo:
                 pop_index = len(frontier) - 1
 
+            
             # IF UCS, we need to sort the frontier according to costo...
-            if "UCS" in algoritmo:
-                sort_frontier(return_cost)
+            # if "UCS" in algoritmo:
+            #     sort_frontier(return_cost)
 
             # We need to remove the correct nodo from the frontier according to the algoritmo and add it to the visitado.
             nodo_actual = frontier.pop(pop_index)
@@ -216,6 +199,7 @@ def es_meta(nodo):
     return False
 
 lista_solucion = []
+lista_expandidos = []
 #lista2 = []
 def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
 
@@ -246,11 +230,12 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
     
     for nodo in expanded_nodes:
         print(nodo, end=" ")
+        lista_expandidos.append([nodo.x,nodo.y])
     print("\n")
 
     maze = Maze()
     maze.poder_espinaca(lista_solucion,costo_solucion)
-    Pacman(leer_archivo(),lista_solucion)
+    Pacman(leer_archivo(),lista_expandidos)
     
 
 
@@ -259,11 +244,14 @@ def return_cost(nodo):
 
 
 def return_heuristic(nodo):
+    print("holiii",nodo.heuristica)
     return nodo.heuristica
 
 
 def return_cost_and_heuristic(nodo):
+    print("aquiii",nodo.heuristica,nodo.costo)
     return nodo.heuristica + nodo.costo
+    
 
 
 def sort_frontier(sort_by):

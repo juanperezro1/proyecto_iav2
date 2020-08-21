@@ -1,4 +1,7 @@
 
 
-def lista_solucion(lista_solucion):
-    pass
+def lista_solucion(padres,hijos):
+    
+    print("Nodos padres",padres)
+    print("Nodos hijos",hijos)
+    

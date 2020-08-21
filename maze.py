@@ -3,6 +3,9 @@ import mapa
 import search
 import numpy as np
 
+import networkx as nx
+import matplotlib.pyplot as plt
+
 class Maze:
 
     matriz_muros = [[]]
@@ -115,22 +118,26 @@ class Maze:
         self.matriz_muros = [[0 for i in range(self.tamano[0])] for i in range(self.tamano[0])]
         
     def puede_pasar(self, fila, columna, direccion):
+
         # Check if the player can pass
         if direccion == "derecha":
-            if self.matriz_muros[fila][columna] == 1:
+            if self.matriz_muros[fila][columna + 1] == 1:
                 return False
             # Return True if there is no blocking wall on derecha side. Otherwise, return False.
-            return self.matriz_muros[fila][columna] == 0
+            return self.matriz_muros[fila][columna + 1] == 0
+
         elif direccion == "abajo":
-            if self.matriz_muros[fila][columna] == 1:
+            if self.matriz_muros[fila + 1][columna] == 1:
                 return False
-            return self.matriz_muros[fila][columna] == 0
+            return self.matriz_muros[fila + 1][columna] == 0
+
         elif direccion == "izquierda":
-            if self.matriz_muros[fila][columna] == 1:
+            if self.matriz_muros[fila][columna - 1] == 1:
                 return False
             return self.matriz_muros[fila][columna - 1] == 0
+
         elif direccion == "arriba":
-            if self.matriz_muros[fila][columna] == 1:
+            if self.matriz_muros[fila - 1][columna] == 1:
                 return False
             return self.matriz_muros[fila - 1][columna] == 0
 
