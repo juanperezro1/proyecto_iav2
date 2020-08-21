@@ -51,6 +51,7 @@ class Graph:
         # Initializing nodo's coordinates.
         nodo.x = x
         nodo.y = y
+
         # Adding the nodo into the nodos list.
         self.nodos.append(nodo)
 
@@ -59,7 +60,7 @@ class Graph:
             nodo.costo = 4
         else:
             if self.laberinto.beneficio[nodo.x][nodo.y] == 1:
-                nodo.costo = -10
+                nodo.costo = -1
             else:
                 nodo.costo = 1
 

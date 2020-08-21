@@ -3,8 +3,7 @@ import mapa
 import search
 import numpy as np
 
-import networkx as nx
-import matplotlib.pyplot as plt
+
 
 class Maze:
 
@@ -101,7 +100,7 @@ class Maze:
             for i in range(len(matriz_power_espinaca)):
                 for j in range(len(matriz_power_espinaca)):
                     if(matriz_power_espinaca[i][j] == 1):
-                        contador_poder += 0.5
+                        contador_poder -= 0.5
                     
             costo_con_poder = abs(costo_solucion - contador_poder)
             print("El costo con el poder de la espinaca es: ",costo_con_poder)
