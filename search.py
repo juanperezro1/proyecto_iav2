@@ -48,8 +48,10 @@ def heuristica(algoritmo, ordenar_heuristica):
             estado_meta = nodo_actual
             break
 
-        # Add to frontera as in BFS. ***
-        add_to_frontier(nodo_actual, "BFS")
+        #Criterio de desempate DFS
+        print("criterio desempa",nodo_actual)
+        agregar_a_frontera(nodo_actual, "DFS")
+        
 
     #Verifica si la busqueda AVARA fue exitosa
     if estado_meta is not None:
@@ -83,7 +85,6 @@ def busqueda_profundidad(algoritmo):
         visitado.clear()
         frontera.append(graph.raiz)
 
-        #***
         while len(frontera) > 0: 
 
             if "DFS" in algoritmo:
@@ -99,7 +100,7 @@ def busqueda_profundidad(algoritmo):
                 break
 
             #***
-            add_to_frontier(nodo_actual, algoritmo)
+            agregar_a_frontera(nodo_actual, algoritmo)
 
         #Se guardan todos los nodos visitado en la lista NODOS_EXPANDIDOS
         for nodo in visitado:
@@ -111,7 +112,7 @@ def busqueda_profundidad(algoritmo):
 
     # Check if DFS_BFS_IDS was successful...
     if estado_meta is None:
-        print("No goal state found.")
+        print("No se encontro la meta.")
         return
 
     # We need to calculate the costo of the solucion AND get the solucion itself...
@@ -127,34 +128,35 @@ def busqueda_profundidad(algoritmo):
     imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos)
 
 
-def add_to_frontier(nodo_actual, algoritmo):
+def agregar_a_frontera(nodo_actual, algoritmo):
     # If the child nodos are not None AND if they are not in visitado, we will add them to the frontera.
-    nodes_to_add = []
+    agregar_nodos = []
     
     if nodo_actual.derecha is not None and not es_visitado(nodo_actual.derecha):
-        nodes_to_add.append(set_parent(nodo_actual, nodo_actual.derecha, algoritmo))
+        agregar_nodos.append(set_padres(nodo_actual, nodo_actual.derecha, algoritmo))
     if nodo_actual.abajo is not None and not es_visitado(nodo_actual.abajo):
-        nodes_to_add.append(set_parent(nodo_actual, nodo_actual.abajo, algoritmo))
+        agregar_nodos.append(set_padres(nodo_actual, nodo_actual.abajo, algoritmo))
     if nodo_actual.izquierda is not None and not es_visitado(nodo_actual.izquierda):
-        nodes_to_add.append(set_parent(nodo_actual, nodo_actual.izquierda, algoritmo))
+        agregar_nodos.append(set_padres(nodo_actual, nodo_actual.izquierda, algoritmo))
     if nodo_actual.arriba is not None and not es_visitado(nodo_actual.arriba):
-        nodes_to_add.append(set_parent(nodo_actual, nodo_actual.arriba, algoritmo))
+        agregar_nodos.append(set_padres(nodo_actual, nodo_actual.arriba, algoritmo))
 
-    # For DFS we'll do it in reverse order because we add each nodo to the end and derecha should be the last nodo.
-    # For BFS we'll do it in correct order.
+    #Se realizar reverse para acomodar los nodos 
     if "DFS" in algoritmo:
-        nodes_to_add.reverse()
+        agregar_nodos.reverse()
 
-    # Then add each nodo to the frontera.
-    for nodo in nodes_to_add:
+    #Se agregan los nodos a la frontera
+    for nodo in agregar_nodos:
         frontera.append(nodo)
 
+def set_padres(nodo_padre, nodo_hijo, algoritmo):
+    #Se le asigna el nodo donde esta actualmente los posibles hijos que puede tener 
+    if "DFS" in algoritmo or nodo_hijo.padres is None:
+        nodo_hijo.padres = nodo_padre
+        print("nodo padre:",nodo_padre,"nodo_hijo:",nodo_hijo,algoritmo)
+    print("nodooooooo jijo",nodo_hijo)
+    return nodo_hijo
 
-def set_parent(parent_node, child_node, algoritmo):
-    # We need to set the padres nodo it is None and if DFS is used. ****
-    if "DFS" in algoritmo or child_node.padres is None:
-        child_node.padres = parent_node
-    return child_node
 
 def es_visitado(nodo):
     if nodo in visitado:
