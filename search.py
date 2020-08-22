@@ -61,7 +61,7 @@ def heuristica(algoritmo, ordenar_heuristica):
         while actual is not None:
             costo_solucion += actual.costo
             solucion.insert(0, actual)
-            # Get the padres nodo and continue...***
+            #Obtener los nodos padres del nodo actual
             actual = actual.padres
 
         #Imprimir resultados
@@ -71,7 +71,7 @@ def heuristica(algoritmo, ordenar_heuristica):
 
 def busqueda_profundidad(algoritmo):
 
-    # Variables
+    #Variables
     pop_index = 0
     estado_meta = None
     costo_solucion = 0
@@ -90,7 +90,7 @@ def busqueda_profundidad(algoritmo):
             if "DFS" in algoritmo:
                 pop_index = len(frontera) - 1
 
-            # We need to remove the correct nodo from the frontera according to the algoritmo and add it to the visitado. **
+            #Se remueve el nodo correcto de la frontera y se agrega a visitado
             nodo_actual = frontera.pop(pop_index)
             visitado[nodo_actual] = None
 
@@ -99,18 +99,14 @@ def busqueda_profundidad(algoritmo):
                 estado_meta = nodo_actual
                 break
 
-            #***
+            #Agregar los nodos fronteras segun donde se encuentre el jugador
             agregar_a_frontera(nodo_actual, algoritmo)
 
         #Se guardan todos los nodos visitado en la lista NODOS_EXPANDIDOS
         for nodo in visitado:
             nodos_expandidos.append(nodo)
 
-        # We will continue only if this is an IDS search...
-        # if "IDS" not in algoritmo:
-        #     break
-
-    # Check if DFS_BFS_IDS was successful...
+    #Verifica si el algoritmo DFS fue exitoso
     if estado_meta is None:
         print("No se encontro la meta.")
         return
@@ -124,12 +120,11 @@ def busqueda_profundidad(algoritmo):
         # Get the padres nodo and continue...
         actual = actual.padres
     
-    # Print the results...
+    #Imprimir los resultados
     imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos)
 
-
 def agregar_a_frontera(nodo_actual, algoritmo):
-    # If the child nodos are not None AND if they are not in visitado, we will add them to the frontera.
+    #Si el nodo hijo no es None y no ha sido visitado, se agrega a la frontera.
     agregar_nodos = []
     
     if nodo_actual.derecha is not None and not es_visitado(nodo_actual.derecha):
