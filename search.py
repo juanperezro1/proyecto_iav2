@@ -31,7 +31,7 @@ def heuristica(algoritmo, ordenar_heuristica):
     frontera.clear()
     visitado.clear()
 
-    #Se agraga a la lista de FRONTERA el nodo raiz
+    #Se agrega a la lista de FRONTERA el nodo raiz
     frontera.append(graph.raiz)
 
     while len(frontera) > 0:
