@@ -5,134 +5,105 @@ from maze import Maze
 import main
 
 graph = None
-frontier = []
-visitado = OrderedDict()  # To prevent duplicates, we use OrderedDict
-
+frontera = []
+visitado = OrderedDict()  #Se previene que el nodo se repita, usando diccionarios
 
 def busqueda_por_profundidad():
     graph.limpiar_padres()
-    dfs_bfs_ids_ucs("Depth First Search(DFS):")
+    busqueda_profundidad("Busqueda por profundidad(DFS):")
 
 def busqueda_avara():
     graph.limpiar_padres()
-    heuristica("Greedy Best First Search(GBFS):", return_heuristic)
-
+    heuristica("Busqueda avara(GBFS):", return_heuristic)
 
 def busqueda_a_estrella():
     graph.limpiar_padres()
-    heuristica("A Star Search(A*):", return_cost_and_heuristic)
+    heuristica("Busqueda A estrella(A*):", return_cost_and_heuristic)
     
-def heuristica(algoritmo, sort_by):
+def heuristica(algoritmo, ordenar_heuristica):
 
     # Variables
     estado_meta = None
     costo_solucion = 0
     solucion = []
 
-    # Lets clear frontier and visitado, then add raiz element to the frontier.
-    frontier.clear()
+    #Se limpian la frontera y los nodos visitado
+    frontera.clear()
     visitado.clear()
-    frontier.append(graph.raiz)
 
-    while len(frontier) > 0:
+    #Se agraga a la lista de FRONTERA el nodo raiz
+    frontera.append(graph.raiz)
 
-        # Firstly, we need to sort the frontier according to heuristica...
-        sort_frontier(sort_by)
+    while len(frontera) > 0:
 
-        # We need to remove the correct nodo from the frontier and add it to the visitado.
-        nodo_actual = frontier.pop(0)
+        #Se organiza la frontera de acuerdo a la heuristica
+        ordenar_frontera(ordenar_heuristica)
+
+        # We need to remove the correct nodo from the frontera and add it to the visitado. ****
+        nodo_actual = frontera.pop(0)
         visitado[nodo_actual] = None
 
-        # Stop GBFS, if we are in a goal state...
+        #Sale del metodo si encuentra la meta
         if es_meta(nodo_actual):
             estado_meta = nodo_actual
             break
 
-        # print(nodo_actual, nodo_actual.padres)
-
-        # Add to frontier as in BFS.
+        # Add to frontera as in BFS. ***
         add_to_frontier(nodo_actual, "BFS")
 
-    # Check if GBFS was successful...
+    #Verifica si la busqueda AVARA fue exitosa
     if estado_meta is not None:
 
-        # We need to calculate the costo of the solucion AND get the solucion itself...
+        #Se calcula el costo de la solución y la ruta 
         actual = estado_meta
         while actual is not None:
             costo_solucion += actual.costo
             solucion.insert(0, actual)
-            # Get the padres nodo and continue...
+            # Get the padres nodo and continue...***
             actual = actual.padres
 
-        # Print the results...
+        #Imprimir resultados
         imprimir_resultados(algoritmo, costo_solucion, solucion, visitado)
     else:
-        print("No goal state found.")
+        print("No se encontro una meta")
 
-
-def dfs_bfs_ids_ucs(algoritmo):
+def busqueda_profundidad(algoritmo):
 
     # Variables
     pop_index = 0
     estado_meta = None
     costo_solucion = 0
     solucion = []
-    expanded_nodes = []
-    #iteration = -1
+    nodos_expandidos = []
 
-    # DFS_BFS_IDS
-    while estado_meta is None: #and iteration <= graph.profundidad_maxima:
+    #Se establece la condición si el Pacman no ha llegado a la meta
+    while estado_meta is None: 
 
-        # For each iteration, we will increase iteration by one and clear frontier and visitado. Also append raiz nodo.
-        #iteration += 1
-        frontier.clear()
+        frontera.clear()
         visitado.clear()
-        frontier.append(graph.raiz)
+        frontera.append(graph.raiz)
 
-        # If IDS, we will add iteration number...
-        # if "IDS" in algoritmo:
-        #     expanded_nodes.append("Iteration " + str(iteration) + ":")
+        #***
+        while len(frontera) > 0: 
 
-        while len(frontier) > 0:
-
-            # If DFS or IDS, we will remove last nodo from the frontier.
-            # IF BFS, we will remove the first nodo from the frontier.
             if "DFS" in algoritmo:
-                pop_index = len(frontier) - 1
+                pop_index = len(frontera) - 1
 
-            
-            # IF UCS, we need to sort the frontier according to costo...
-            # if "UCS" in algoritmo:
-            #     sort_frontier(return_cost)
-
-            # We need to remove the correct nodo from the frontier according to the algoritmo and add it to the visitado.
-            nodo_actual = frontier.pop(pop_index)
+            # We need to remove the correct nodo from the frontera according to the algoritmo and add it to the visitado. **
+            nodo_actual = frontera.pop(pop_index)
             visitado[nodo_actual] = None
 
-            # Stop DFS_BFS_IDS, if we are in a goal state...
+            #Detener el metodo si se ha llegado a la meta
             if es_meta(nodo_actual):
                 estado_meta = nodo_actual
                 break
 
-            # Lets add all child nodos of the actual element to the end of the list...
-            # If IDS, we need to add child nodos according to the iteration number.
-
-            #####Cosa extraña_______________________
-            # if "IDS" in algoritmo:
-            #     padres = nodo_actual
-            #     # for i in range(iteration):
-            #         # If padres is not none, iterate to upper padres.
-            #     padres = padres if padres is None else padres.padres
-
-            #     if padres is None:
-            #         add_to_frontier(nodo_actual, "DFS")
-            # # Else, we add all child nodos.
-            # else:
+            #***
             add_to_frontier(nodo_actual, algoritmo)
 
-        # Add all visitado nodos to expanded nodos, before clearing it.
+        #Se guardan todos los nodos visitado en la lista NODOS_EXPANDIDOS
         for nodo in visitado:
-            expanded_nodes.append(nodo)
+            nodos_expandidos.append(nodo)
 
         # We will continue only if this is an IDS search...
         # if "IDS" not in algoritmo:
@@ -153,11 +124,11 @@ def dfs_bfs_ids_ucs(algoritmo):
         actual = actual.padres
     
     # Print the results...
-    imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes)
+    imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos)
 
 
 def add_to_frontier(nodo_actual, algoritmo):
-    # If the child nodos are not None AND if they are not in visitado, we will add them to the frontier.
+    # If the child nodos are not None AND if they are not in visitado, we will add them to the frontera.
     nodes_to_add = []
     
     if nodo_actual.derecha is not None and not es_visitado(nodo_actual.derecha):
@@ -174,24 +145,23 @@ def add_to_frontier(nodo_actual, algoritmo):
     if "DFS" in algoritmo:
         nodes_to_add.reverse()
 
-    # Then add each nodo to the frontier.
+    # Then add each nodo to the frontera.
     for nodo in nodes_to_add:
-        frontier.append(nodo)
+        frontera.append(nodo)
 
 
 def set_parent(parent_node, child_node, algoritmo):
-    # We need to set the padres nodo it is None and if DFS is used.
+    # We need to set the padres nodo it is None and if DFS is used. ****
     if "DFS" in algoritmo or child_node.padres is None:
         child_node.padres = parent_node
     return child_node
-
 
 def es_visitado(nodo):
     if nodo in visitado:
         return True
     return False
 
-
+#Evalua si el nodo en donde se encuentra es meta
 def es_meta(nodo):
     for goal in graph.laberinto.meta:
         if goal[0] == nodo.x and goal[1] == nodo.y:
@@ -200,59 +170,39 @@ def es_meta(nodo):
 
 lista_solucion = []
 lista_expandidos = []
-#lista2 = []
-def imprimir_resultados(algoritmo, costo_solucion, solucion, expanded_nodes):
 
+def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
 
     print(algoritmo)
-    #print("costo of the solucion:", costo_solucion)
-    print("The solucion path (" + str(len(solucion)) + " nodos):", end=" ")
+    print("El camino solución es (" + str(len(solucion)) + " nodos):", end=" ")
     
     ##Imprime el camino para llegar a la meta
-    
     for nodo in solucion:
         print(nodo, end=" ")
         lista_solucion.append([nodo.x,nodo.y])
-        #lista2.append([nodo.x,nodo.y])
 
-    #actualizar_mapa(matriz_actualizar)
-    #print("aquuuuu toy",lista_solucion)
+    print("\nNodos expandidos (" + str(len(nodos_expandidos)) + " nodos):", end=" ")
 
-    print("\nExpanded nodos (" + str(len(expanded_nodes)) + " nodos):", end=" ")
-
-    # if "IDS" in algoritmo:
-    #     print()
-    #     for i in range(len(expanded_nodes) - 1):
-    #         if type(expanded_nodes[i+1]) == str:
-    #             print(expanded_nodes[i])
-    #         else:
-    #             print(expanded_nodes[i], end=" ")
-    
-    for nodo in expanded_nodes:
+    for nodo in nodos_expandidos:
         print(nodo, end=" ")
         lista_expandidos.append([nodo.x,nodo.y])
     print("\n")
 
     maze = Maze()
+    #Se envia la LISTA_SOLUCION para determinar el poder espinaca
     maze.poder_espinaca(lista_solucion,costo_solucion)
-    Pacman(leer_archivo(),lista_expandidos)
+    Pacman(leer_archivo(),lista_solucion)
     
-
-
 def return_cost(nodo):
     return nodo.costo
-
 
 def return_heuristic(nodo):
     print("holiii",nodo.heuristica)
     return nodo.heuristica
 
-
 def return_cost_and_heuristic(nodo):
     print("aquiii",nodo.heuristica,nodo.costo)
     return nodo.heuristica + nodo.costo
     
-
-
-def sort_frontier(sort_by):
-    frontier.sort(key=sort_by)
+def ordenar_frontera(ordenar_heuristica):
+    frontera.sort(key=ordenar_heuristica)

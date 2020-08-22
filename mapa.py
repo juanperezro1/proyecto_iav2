@@ -7,15 +7,10 @@ import sys
 from pygame.locals import *
 import time
 
-colorF = (0, 0, 0)  # colorF = (52, 44, 41)
+colorF = (0, 0, 0)  
 pixel = 70
-colorLinea = (57, 255, 20)
-# y = x, x = y
 
-class Juego(object):
-    def __init__(self):
-        self.game_over = False
-
+#Se crea la clase MUROy el constructor
 class Muro(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
         self.imagenMuro = pygame.image.load("muro.jpg")
@@ -66,16 +61,13 @@ class Espinaca(pygame.sprite.Sprite):
     def dibujar_espinaca(self, superficie):
         superficie.blit(self.imagenEspinaca, self.rect)   
 
-
+#Permite leer el archivo .txt (matriz camino,enemigos,inicio,meta)
 def leer_archivo():
-    archivo = open("matrizMapa.txt")
+    archivo = open("m12.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
     return matriz
-
-def enemigo(matrizAyuda1,Solucion):
-    pass
 
 def Pacman(matrizAyuda1,Solucion):
     os.environ["SDL_VIDEO_CENTERED"] = "1"
@@ -118,11 +110,6 @@ def Pacman(matrizAyuda1,Solucion):
             if evento.type == QUIT:
                 pygame.quit()
                 sys.exit()
-
-        """
-        colision =  jugadorAct.rect.colliderect(enemigo)
-        print("Collision",colision)
-        """
         
 def actualizarJugador(jugador,superficie):
         jugador.dibujarJugador(superficie)
