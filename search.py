@@ -38,8 +38,8 @@ def heuristica(algoritmo, ordenar_heuristica):
 
         #Se organiza la frontera de acuerdo a la heuristica
         ordenar_frontera(ordenar_heuristica)
-
-        # We need to remove the correct nodo from the frontera and add it to the visitado. ****
+        
+        #Remueve el nodo correcto de la frontera y se agrega a visitado
         nodo_actual = frontera.pop(0)
         visitado[nodo_actual] = None
 
