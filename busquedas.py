@@ -2,7 +2,10 @@ from collections import OrderedDict
 from mapa import Pacman
 from mapa import leer_archivo
 from laberinto import Laberinto
+from mapa import modificar_file
 import main
+import numpy as np
+import random
 
 grafo = None
 frontera = []
@@ -175,6 +178,34 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
         print(nodo, end=" ")
         lista_solucion.append([nodo.x,nodo.y])
 
+        conta_grito = 0
+        n = random.randint(1,10)
+        
+        #a = open("validacion_grito.txt", 'r')
+        #b = a.read()
+
+
+        archivo = open("validacion_grito.txt")
+        validacion_grito = np.loadtxt(archivo, dtype=int, skiprows=0)
+        archivo.close()
+        validacion_grito = np.asarray(validacion_grito)
+
+        if(validacion_grito[1] == 1): #0 si no ha gritado y 1 si ya grito
+            pass
+        else:
+            if(n == 1 or n==2 or n==3):
+
+                conta_grito += 1
+                save = np.savetxt('validacion_grito.txt',[0,conta_grito], delimiter= ' ',fmt='%d')
+                modificar_file([nodo.x,nodo.y])
+                
+                if(conta_grito != 0):
+                    break
+                else:
+                    pass
+            else:
+                print("No grito")
+        
     print("\nNodos expandidos (" + str(len(nodos_expandidos)) + " nodos):", end=" ")
 
     for nodo in nodos_expandidos:
@@ -184,6 +215,8 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
 
     laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
+    
+
     laberinto.poder_espinaca(lista_solucion,costo_solucion)
     Pacman(leer_archivo(),lista_solucion)
     

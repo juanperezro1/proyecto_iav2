@@ -27,6 +27,7 @@ class Grafo:
 
     nodos = []  #Se crea una lista de nodos para evitar nodos iguales
     laberinto = None
+
     lista_nodos_padres = []
     lista_nodos_hijos = []
 
@@ -59,7 +60,7 @@ class Grafo:
         #Se establece el costo del nodo si el Pacman llega a pasar por ahi
         if self.laberinto.trampas[nodo.x][nodo.y] == 1:
             #Costo de pasar por un enemigo
-            nodo.costo = 100
+            nodo.costo = 4
         else:
             if self.laberinto.beneficio[nodo.x][nodo.y] == 1:
                 #Le permite al pacman coger el beneficio (espinaca) para tener un menor costo
@@ -162,26 +163,26 @@ class Grafo:
                     y += 1
                     costo += self.get_nodo_costo(nodo.x, nodo.y + y)
                     distancia_vertical -= 1
-                    print("verti>0", "[",nodo.x,nodo.y + y,"]", [nodo.x,nodo.y])
+                    #print("verti>0", "[",nodo.x,nodo.y + y,"]", [nodo.x,nodo.y])
                 while distancia_horizontal > 0:
                     x += 1
                     costo += self.get_nodo_costo(nodo.x + x, nodo.y + y)
                     distancia_horizontal -= 1
-                    print("hori>0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
+                    #print("hori>0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
                 while distancia_vertical < 0:
                     y -= 1
                     costo += self.get_nodo_costo(nodo.x + x, nodo.y + y)
                     distancia_vertical += 1
-                    print("verti<0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
+                    #print("verti<0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
                 while distancia_horizontal < 0:
                     x -= 1
                     costo += self.get_nodo_costo(nodo.x + x, nodo.y + y)
                     distancia_horizontal += 1
-                    print("hori<0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
+                    #print("hori<0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
 
                 #Selecciona el menor costo ("SIEMPRE" seleccionara costo)
                 costo_total = min(costo_total, costo)
-                print(costo_total)
+                #print(costo_total)
         
             # Se asigna el costo total (el valor de ir a la meta segun el nodo en que se encuentre) a la heuristica
             nodo.heuristica = costo_total

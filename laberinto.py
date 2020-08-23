@@ -12,6 +12,8 @@ class Laberinto:
     meta = []
     matrizAyuda1 = []
     lista_solucion = [[]]
+
+    
     
 # Caminos libres 0, Obstaculos 1,  Enemigo (Fantasma) 2, Inicio (MrPacman) 3, Meta (Sra Pacman) 4
 

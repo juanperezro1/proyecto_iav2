@@ -6,6 +6,7 @@ from grafo import Nodo
 import sys
 from pygame.locals import *
 import time
+import random
 
 colorF = (0, 0, 0)  
 pixel = 70
@@ -63,13 +64,28 @@ class Espinaca(pygame.sprite.Sprite):
     def dibujar_espinaca(self, superficie):
         superficie.blit(self.imagenEspinaca, self.rect)   
 
+
 #Permite leer el archivo .txt (matriz camino,enemigos,inicio,meta)
 def leer_archivo():
-    archivo = open("matrizMapa.txt")
+    archivo = open("m12.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
+    #print(matriz)
     return matriz
+
+def modificar_file(pos_inicio):
+
+    matriz = leer_archivo()
+
+    for i in range(len(matriz)):
+        for j in range(len(matriz)):
+            if (matriz[i][j] == 3):
+                matriz[i][j] = 0
+            
+    
+    matriz[pos_inicio[0],pos_inicio[1]] = 3
+    save = np.savetxt('m12.txt',matriz, delimiter= ' ',fmt='%d')
 
 def Pacman(matrizAyuda1,Solucion):
     os.environ["SDL_VIDEO_CENTERED"] = "1"
@@ -99,7 +115,7 @@ def Pacman(matrizAyuda1,Solucion):
                 sra_pacman.dibujar_sra_pacman(ventana)
                 pos_sra_pacman.append(i)
                 pos_sra_pacman.append(j)
-                print(pos_sra_pacman)
+                #print(pos_sra_pacman)
                 
             if (matrizAyuda1[i][j] == 5):
                 espinaca = Espinaca(i*pixel,j*pixel)
@@ -128,6 +144,9 @@ def Pacman(matrizAyuda1,Solucion):
         rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
         actualizarJugador(jugadorAct,ventana)
         pygame.draw.rect(ventana,colorF,rectangulo)
+
+
+        
 
     while True:
         for evento in pygame.event.get():
