@@ -162,25 +162,26 @@ class Graph:
                     y += 1
                     costo += self.get_nodo_costo(nodo.x, nodo.y + y)
                     distancia_vertical -= 1
-                    #print("verti >0",costo,[nodo.x,nodo.y + y])
+                    print("verti>0", "[",nodo.x,nodo.y + y,"]", [nodo.x,nodo.y])
                 while distancia_horizontal > 0:
                     x += 1
                     costo += self.get_nodo_costo(nodo.x + x, nodo.y + y)
                     distancia_horizontal -= 1
-                    #print("hori >0",costo,[nodo.x + x, nodo.y + y])
+                    print("hori>0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
                 while distancia_vertical < 0:
                     y -= 1
                     costo += self.get_nodo_costo(nodo.x + x, nodo.y + y)
                     distancia_vertical += 1
-                    #print("verti <0",costo,[nodo.x + x, nodo.y + y])
+                    print("verti<0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
                 while distancia_horizontal < 0:
                     x -= 1
                     costo += self.get_nodo_costo(nodo.x + x, nodo.y + y)
                     distancia_horizontal += 1
-                    #print("hori <0",costo,[nodo.x + x, nodo.y + y])
+                    print("hori<0", "[",nodo.x+x,nodo.y+y,"]",[nodo.x,nodo.y])
 
                 #Selecciona el menor costo ("SIEMPRE" seleccionara costo)
                 costo_total = min(costo_total, costo)
+                print(costo_total)
         
             # Se asigna el costo total (el valor de ir a la meta segun el nodo en que se encuentre) a la heuristica
             nodo.heuristica = costo_total

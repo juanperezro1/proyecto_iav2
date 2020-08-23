@@ -11,8 +11,8 @@ if __name__ == "__main__":
 
     #Busquedas
 
-    search.busqueda_por_profundidad()
-    #search.busqueda_avara()
+    #search.busqueda_por_profundidad()
+    search.busqueda_avara()
     #search.busqueda_a_estrella()
 
 
