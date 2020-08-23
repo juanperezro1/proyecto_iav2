@@ -1,23 +1,23 @@
 from collections import OrderedDict
 from mapa import Pacman
 from mapa import leer_archivo
-from maze import Maze
+from laberinto import Laberinto
 import main
 
-graph = None
+grafo = None
 frontera = []
 visitado = OrderedDict()  #Se previene que el nodo se repita, usando diccionarios
 
 def busqueda_por_profundidad():
-    graph.limpiar_padres()
+    grafo.limpiar_padres()
     busqueda_profundidad("Busqueda por profundidad(DFS):")
 
 def busqueda_avara():
-    graph.limpiar_padres()
+    grafo.limpiar_padres()
     heuristica("Busqueda avara(GBFS):", return_heuristic)
 
 def busqueda_a_estrella():
-    graph.limpiar_padres()
+    grafo.limpiar_padres()
     heuristica("Busqueda A estrella(A*):", return_cost_and_heuristic)
     
 def heuristica(algoritmo, ordenar_heuristica):
@@ -32,7 +32,7 @@ def heuristica(algoritmo, ordenar_heuristica):
     visitado.clear()
 
     #Se agrega a la lista de FRONTERA el nodo raiz
-    frontera.append(graph.raiz)
+    frontera.append(grafo.raiz)
 
     while len(frontera) > 0:
 
@@ -82,7 +82,7 @@ def busqueda_profundidad(algoritmo):
 
         frontera.clear()
         visitado.clear()
-        frontera.append(graph.raiz)
+        frontera.append(grafo.raiz)
 
         while len(frontera) > 0: 
 
@@ -157,7 +157,7 @@ def es_visitado(nodo):
 
 #Evalua si el nodo en donde se encuentra es meta
 def es_meta(nodo):
-    for goal in graph.laberinto.meta:
+    for goal in grafo.laberinto.meta:
         if goal[0] == nodo.x and goal[1] == nodo.y:
             return True
     return False
@@ -182,9 +182,9 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
         lista_expandidos.append([nodo.x,nodo.y])
     print("\n")
 
-    maze = Maze()
+    laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
-    maze.poder_espinaca(lista_solucion,costo_solucion)
+    laberinto.poder_espinaca(lista_solucion,costo_solucion)
     Pacman(leer_archivo(),lista_solucion)
     
 def return_cost(nodo):

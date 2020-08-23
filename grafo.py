@@ -1,5 +1,5 @@
 import sys
-from maze import Maze
+from laberinto import Laberinto
 from arbol_solucion import lista_solucion
 
 class Nodo:
@@ -23,7 +23,7 @@ class Nodo:
     def get_posicion(self):
         return [self.x, self.y]
     
-class Graph:
+class Grafo:
 
     nodos = []  #Se crea una lista de nodos para evitar nodos iguales
     laberinto = None
@@ -33,7 +33,7 @@ class Graph:
     def __init__(self):
         
         #Se crea el grafo
-        self.laberinto = Maze()
+        self.laberinto = Laberinto()
 
         #La raiz del grafo es la posición inicial del Pacman 
         self.raiz = self.crear_nodo(self.laberinto.inicio[0], self.laberinto.inicio[1])
@@ -59,7 +59,7 @@ class Graph:
         #Se establece el costo del nodo si el Pacman llega a pasar por ahi
         if self.laberinto.trampas[nodo.x][nodo.y] == 1:
             #Costo de pasar por un enemigo
-            nodo.costo = 4
+            nodo.costo = 100
         else:
             if self.laberinto.beneficio[nodo.x][nodo.y] == 1:
                 #Le permite al pacman coger el beneficio (espinaca) para tener un menor costo
@@ -69,7 +69,7 @@ class Graph:
 
         #Verifica si el nodo tiene algun obstaculo al rededor
 
-        if self.laberinto.puede_pasar(nodo.x, nodo.y, "derecha"): #Pregunta en la clase MAZE si puede pasar (ir derecha)
+        if self.laberinto.puede_pasar(nodo.x, nodo.y, "derecha"): #Pregunta en la clase Laberinto si puede pasar (ir derecha)
             #Si el nodo existe, este no se vuelve a crear
             nodo.derecha = self.nodo_existente(nodo.x, nodo.y + 1)
             #Si el nodo derecha es vacio, lo crea si lo tiene

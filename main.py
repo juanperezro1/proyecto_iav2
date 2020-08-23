@@ -1,18 +1,16 @@
-import search
-from graph import Graph
-import mapa
-from maze import Maze
+import busquedas
+from grafo import Grafo
 
 if __name__ == "__main__":
     
     #Se inicializa la clase Graph
-    graph = Graph()
-    search.graph = graph
+    grafo = Grafo()
+    busquedas.grafo = grafo
 
     #Busquedas
 
-    #search.busqueda_por_profundidad()
-    search.busqueda_avara()
-    #search.busqueda_a_estrella()
+    #busquedas.busqueda_por_profundidad()
+    #busquedas.busqueda_avara()
+    busquedas.busqueda_a_estrella()
 
 

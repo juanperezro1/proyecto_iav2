@@ -1,8 +1,8 @@
 import pygame
-import maze
+import laberinto
 import numpy as np
 import os
-from graph import Nodo
+from grafo import Nodo
 import sys
 from pygame.locals import *
 import time

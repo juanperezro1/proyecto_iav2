@@ -1,7 +1,8 @@
 import mapa
-import search
+import busquedas
 import numpy as np
-class Maze:
+
+class Laberinto:
     matriz_muros = [[]]
     tamano = []
     trampas = [[]]
