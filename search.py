@@ -38,7 +38,7 @@ def heuristica(algoritmo, ordenar_heuristica):
 
         #Se organiza la frontera de acuerdo a la heuristica
         ordenar_frontera(ordenar_heuristica)
-        
+
         #Remueve el nodo correcto de la frontera y se agrega a visitado
         nodo_actual = frontera.pop(0)
         visitado[nodo_actual] = None
@@ -49,7 +49,6 @@ def heuristica(algoritmo, ordenar_heuristica):
             break
 
         #Criterio de desempate DFS
-        print("criterio desempa",nodo_actual)
         agregar_a_frontera(nodo_actual, "DFS")
         
 
@@ -148,8 +147,6 @@ def set_padres(nodo_padre, nodo_hijo, algoritmo):
     #Se le asigna el nodo donde esta actualmente los posibles hijos que puede tener 
     if "DFS" in algoritmo or nodo_hijo.padres is None:
         nodo_hijo.padres = nodo_padre
-        print("nodo padre:",nodo_padre,"nodo_hijo:",nodo_hijo,algoritmo)
-    print("nodooooooo jijo",nodo_hijo)
     return nodo_hijo
 
 
@@ -194,11 +191,10 @@ def return_cost(nodo):
     return nodo.costo
 
 def return_heuristic(nodo):
-    print("holiii",nodo.heuristica)
     return nodo.heuristica
 
 def return_cost_and_heuristic(nodo):
-    print("aquiii",nodo.heuristica,nodo.costo)
+    #print("heuristica,nodo",nodo.heuristica,nodo.costo)
     return nodo.heuristica + nodo.costo
     
 def ordenar_frontera(ordenar_heuristica):
