@@ -166,8 +166,11 @@ def es_meta(nodo):
     return False
 
 lista_solucion = []
+lista_solucion2 = []
 lista_expandidos = []
+pos_gritona = []
 
+index_validacion = 0
 def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
 
     print(algoritmo)
@@ -177,26 +180,25 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
     for nodo in solucion:
         print(nodo, end=" ")
         lista_solucion.append([nodo.x,nodo.y])
+        lista_solucion2.append([nodo.x,nodo.y])
 
         conta_grito = 0
         n = random.randint(1,10)
-        
-        #a = open("validacion_grito.txt", 'r')
-        #b = a.read()
-
-
-        archivo = open("validacion_grito.txt")
+    
+        archivo = open("txt_grito/validacion_grito.txt")
         validacion_grito = np.loadtxt(archivo, dtype=int, skiprows=0)
         archivo.close()
         validacion_grito = np.asarray(validacion_grito)
 
-        if(validacion_grito[1] == 1): #0 si no ha gritado y 1 si ya grito
+        if(validacion_grito[index_validacion] == 1): #0 si no ha gritado y 1 si ya grito
             pass
         else:
             if(n == 1 or n==2 or n==3):
-
+                print()
+                pos_gritona.append([nodo.x,nodo.y])
+                print("Aqui estoy Sr. Pacman:",[nodo.x,nodo.y])
                 conta_grito += 1
-                save = np.savetxt('validacion_grito.txt',[0,conta_grito], delimiter= ' ',fmt='%d')
+                save = np.savetxt('txt_grito/validacion_grito.txt',[0,conta_grito], delimiter= ' ',fmt='%d')
                 modificar_file([nodo.x,nodo.y])
                 
                 if(conta_grito != 0):
@@ -211,13 +213,24 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
     for nodo in nodos_expandidos:
         print(nodo, end=" ")
         lista_expandidos.append([nodo.x,nodo.y])
-    print("\n")
+    print("\n") 
+    
+    if pos_gritona != []:
+        index_grito = lista_solucion.index(pos_gritona[0])
+        costo_paracial = (index_grito + 1)
+        save = np.savetxt('txt_grito/solucion_parcial_busqueda_avara.txt',[costo_paracial], delimiter= ' ',fmt='%d')
+    else:
+        pass
+    
+    archivo = open("txt_grito\solucion_parcial_busqueda_avara.txt")
+    costo_parcial_avara = np.loadtxt(archivo, dtype=int, skiprows=0)
+    archivo.close()
+
+
 
     laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
-    
-
-    laberinto.poder_espinaca(lista_solucion,costo_solucion)
+    laberinto.poder_espinaca(lista_solucion,costo_solucion,costo_parcial_avara)
     Pacman(leer_archivo(),lista_solucion)
     
 def return_cost(nodo):

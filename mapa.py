@@ -14,11 +14,11 @@ pixel = 70
 #Se crea la clase MUROy el constructor
 class Muro(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
-        self.imagenMuro = pygame.image.load("muro.jpg")
+        self.imagenMuro = pygame.image.load("recursos\muro.jpg")
         self.rect = self.imagenMuro.get_rect()
         self.rect.top = posX
         self.rect.left = posY
-        pygame.mixer.music.load("camino.mpeg")
+        pygame.mixer.music.load("recursos\camino.mpeg")
         pygame.mixer.music.play(-1) 
 
     def dibujarMuro(self, superficie):
@@ -26,7 +26,7 @@ class Muro(pygame.sprite.Sprite):
 
 class Jugador(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
-        self.imagenEnemigo = pygame.image.load("pacman.png")
+        self.imagenEnemigo = pygame.image.load("recursos\pacman.png")
         self.rect = self.imagenEnemigo.get_rect()
         self.rect.top = posX
         self.rect.left = posY 
@@ -36,7 +36,7 @@ class Jugador(pygame.sprite.Sprite):
         
 class Sra_pacman(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
-        self.imagenLlave = pygame.image.load("srapacman.png")
+        self.imagenLlave = pygame.image.load("recursos\srapacman.png")
         self.rect = self.imagenLlave.get_rect()
         self.rect.top = posX
         self.rect.left = posY
@@ -46,7 +46,7 @@ class Sra_pacman(pygame.sprite.Sprite):
 
 class Enemigo(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
-        self.imagenEnemigo = pygame.image.load("enemigo.png")
+        self.imagenEnemigo = pygame.image.load("recursos\enemigo.png")
         self.rect = self.imagenEnemigo.get_rect()
         self.rect.top = posX
         self.rect.left = posY
@@ -56,7 +56,7 @@ class Enemigo(pygame.sprite.Sprite):
 
 class Espinaca(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
-        self.imagenEspinaca = pygame.image.load("espinaca.png")
+        self.imagenEspinaca = pygame.image.load("recursos\espinaca.png")
         self.rect = self.imagenEspinaca.get_rect()
         self.rect.top = posX
         self.rect.left = posY

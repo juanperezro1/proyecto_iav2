@@ -13,8 +13,6 @@ class Laberinto:
     matrizAyuda1 = []
     lista_solucion = [[]]
 
-    
-    
 # Caminos libres 0, Obstaculos 1,  Enemigo (Fantasma) 2, Inicio (MrPacman) 3, Meta (Sra Pacman) 4
 
     def __init__(self):
@@ -55,7 +53,7 @@ class Laberinto:
 
     #Espinaca power: a partir de la posición de la espinaca setea el camino hasta la meta con unos (1)
 
-    def poder_espinaca(self,lista_solucion,costo_solucion):
+    def poder_espinaca(self,lista_solucion,costo_solucion,costo_parcial_avara):
 
         pos_espinaca_lista_solucion = None
 
@@ -100,7 +98,7 @@ class Laberinto:
             print("El costo con el poder de la espinaca es: ",costo_con_poder)
 
         else:
-            print("El costo de la solución es: ",costo_solucion)
+            print("El costo de la solución es: ",costo_solucion + costo_parcial_avara)
 
     #Se inicializan en 0 las matrices que se usaran 
     def set_tamano(self):
