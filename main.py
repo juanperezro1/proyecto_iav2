@@ -12,7 +12,7 @@ if __name__ == "__main__":
     #Busquedas
 
     #busquedas.busqueda_por_profundidad()
-    busquedas.busqueda_avara()
-    #busquedas.busqueda_a_estrella()
+    #busquedas.busqueda_avara()
+    busquedas.busqueda_a_estrella()
 
 

@@ -152,7 +152,6 @@ def set_padres(nodo_padre, nodo_hijo, algoritmo):
         nodo_hijo.padres = nodo_padre
     return nodo_hijo
 
-
 def es_visitado(nodo):
     if nodo in visitado:
         return True
@@ -166,7 +165,6 @@ def es_meta(nodo):
     return False
 
 lista_solucion = []
-lista_solucion2 = []
 lista_expandidos = []
 pos_gritona = []
 
@@ -180,8 +178,7 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
     for nodo in solucion:
         print(nodo, end=" ")
         lista_solucion.append([nodo.x,nodo.y])
-        lista_solucion2.append([nodo.x,nodo.y])
-
+        
         conta_grito = 0
         n = random.randint(1,10)
     
@@ -200,6 +197,7 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
                 conta_grito += 1
                 save = np.savetxt('txt_grito/validacion_grito.txt',[0,conta_grito], delimiter= ' ',fmt='%d')
                 modificar_file([nodo.x,nodo.y])
+                save = np.savetxt('txt_grito/lista_solucion_parcial_con_grito.txt',lista_solucion, delimiter= ' ',fmt='%d')
                 
                 if(conta_grito != 0):
                     break
@@ -207,7 +205,7 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
                     pass
             else:
                 print("No grito")
-        
+                
     print("\nNodos expandidos (" + str(len(nodos_expandidos)) + " nodos):", end=" ")
 
     for nodo in nodos_expandidos:
@@ -215,18 +213,25 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
         lista_expandidos.append([nodo.x,nodo.y])
     print("\n") 
     
-    if pos_gritona != []:
+    if pos_gritona == []:
+        pass  
+    else:
         index_grito = lista_solucion.index(pos_gritona[0])
         costo_paracial = (index_grito + 1)
         save = np.savetxt('txt_grito/solucion_parcial_busqueda_avara.txt',[costo_paracial], delimiter= ' ',fmt='%d')
-    else:
-        pass
     
     archivo = open("txt_grito\solucion_parcial_busqueda_avara.txt")
     costo_parcial_avara = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
 
+    if (validacion_grito[index_validacion] == 1):
+        archivo = open("txt_grito/lista_solucion_parcial_con_grito.txt")
+        lista_camino_parcial_con_grito = np.loadtxt(archivo, dtype=int, skiprows=0)
+        archivo.close()
 
+        lista_camino_parcial_con_grito = lista_camino_parcial_con_grito.tolist()
+        lista_camino_parcial_con_grito = lista_camino_parcial_con_grito[:len(pos_gritona)-1]
+        print(lista_camino_parcial_con_grito + lista_solucion)
 
     laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
