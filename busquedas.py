@@ -1,14 +1,16 @@
 from collections import OrderedDict
-from mapa import Pacman
+from mapa import Mapa
 from mapa import leer_archivo
 from laberinto import Laberinto
 from mapa import modificar_file
 import main
 import numpy as np
+#from busquedaEnemigo import get_lista_solucion
 import random
 
 grafo = None
 frontera = []
+
 visitado = OrderedDict()  #Se previene que el nodo se repita, usando diccionarios
 
 def busqueda_por_profundidad():
@@ -19,11 +21,13 @@ def busqueda_avara():
     grafo.limpiar_padres()
     heuristica("Busqueda avara(GBFS):", return_heuristic)
 
-def busqueda_a_estrella():
+def busqueda_a_estrella(lista_n):
+    #lista_enemigo = lista_n
+    #print("primerrooooo",lista_enemigo)
     grafo.limpiar_padres()
-    heuristica("Busqueda A estrella(A*):", return_cost_and_heuristic)
+    heuristica("Busqueda A estrella(A*):", return_cost_and_heuristic,lista_n)
     
-def heuristica(algoritmo, ordenar_heuristica):
+def heuristica(algoritmo, ordenar_heuristica,lista_enemigo):
 
     # Variables
     estado_meta = None
@@ -67,7 +71,7 @@ def heuristica(algoritmo, ordenar_heuristica):
             actual = actual.padres
 
         #Imprimir resultados
-        imprimir_resultados(algoritmo, costo_solucion, solucion, visitado)
+        imprimir_resultados(algoritmo, costo_solucion, solucion, visitado,lista_enemigo)
     else:
         print("No se encontro una meta")
 
@@ -169,7 +173,7 @@ lista_expandidos = []
 pos_gritona = []
 
 index_validacion = 0
-def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
+def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos,lista_enemigo):
 
     print(algoritmo)
     print("El camino solución es (" + str(len(solucion)) + " nodos):", end=" ")
@@ -236,7 +240,12 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
     laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
     laberinto.poder_espinaca(lista_solucion,costo_solucion,costo_parcial_avara)
-    Pacman(leer_archivo(),lista_solucion)
+    pacman = Mapa()
+    print("lista ene",lista_enemigo)
+    pacman.lista_solucion_profundidad(lista_enemigo)
+    #Pacman(leer_archivo(),lista_solucion)
+    pacman.Pacman(leer_archivo(),lista_solucion)
+    
     
 def return_cost(nodo):
     return nodo.costo

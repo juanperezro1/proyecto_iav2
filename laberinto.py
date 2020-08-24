@@ -9,7 +9,9 @@ class Laberinto:
     beneficio = [[]]
     matriz_beneficio = [[]]
     inicio = []
+    inicio_enemigo = []
     meta = []
+    meta_enemigo = []
     matrizAyuda1 = []
     lista_solucion = [[]]
 
@@ -31,10 +33,13 @@ class Laberinto:
                 
                 if(self.matrizAyuda1[i][j] == 2):   #Enemigo
                     self.trampas[i][j] = 1
+                    self.inicio_enemigo.append(i)
+                    self.inicio_enemigo.append(j)
 
                 if(self.matrizAyuda1[i][j] == 3):  #Inicio
                     self.inicio.append(i)
                     self.inicio.append(j)
+                    self.meta_enemigo.append([i,j])
             
                 if(self.matrizAyuda1[i][j] == 4):   #Meta
                     self.meta.append([i,j])
