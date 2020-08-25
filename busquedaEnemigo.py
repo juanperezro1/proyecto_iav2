@@ -17,11 +17,8 @@ visitado = OrderedDict()  #Se previene que el nodo se repita, usando diccionario
 def busqueda_por_profundidad():
     grafo_enemigo.limpiar_padres()
     solucion = busqueda_profundidad("Busqueda por profundidad(DFS):")
-    #print("solucioneneneenen",solucion)
     return solucion
     
-
-
 def busqueda_profundidad(algoritmo):
 
     #Variables
@@ -123,30 +120,11 @@ pos_gritona = []
 index_validacion = 0
 def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos):
 
-    
-    # print(algoritmo)
-    # print("El camino solución es (" + str(len(solucion)) + " nodos):", end=" ")
-    
-    ##Imprime el camino para llegar a la meta
     for nodo in solucion:
         lista_solucion.append([nodo.x,nodo.y])
 
-    #mapa = Mapa()
-    #mapa.lista_solucion_profundidad(lista_solucion)
-    #print("....",lista_solucion)
-
-    #get_lista_solucion(lista_solucion)
-        
-        
-    # print("\nNodos expandidos (" + str(len(nodos_expandidos)) + " nodos):", end=" ")
-
-    # for nodo in nodos_expandidos:
-    #     print(nodo, end=" ")
-    #     lista_expandidos.append([nodo.x,nodo.y])
-    # print("\n") 
     return lista_solucion
     
-    # Fantasma(leer_archivo(),lista_solucion)
 
 
  

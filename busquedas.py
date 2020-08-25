@@ -22,8 +22,6 @@ def busqueda_avara():
     heuristica("Busqueda avara(GBFS):", return_heuristic)
 
 def busqueda_a_estrella(lista_n):
-    #lista_enemigo = lista_n
-    #print("primerrooooo",lista_enemigo)
     grafo.limpiar_padres()
     heuristica("Busqueda A estrella(A*):", return_cost_and_heuristic,lista_n)
     
@@ -241,11 +239,8 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos,li
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
     laberinto.poder_espinaca(lista_solucion,costo_solucion,costo_parcial_avara)
     pacman = Mapa()
-    print("lista ene",lista_enemigo)
     pacman.lista_solucion_profundidad(lista_enemigo)
-    #Pacman(leer_archivo(),lista_solucion)
     pacman.Pacman(leer_archivo(),lista_solucion)
-    
     
 def return_cost(nodo):
     return nodo.costo
@@ -254,7 +249,6 @@ def return_heuristic(nodo):
     return nodo.heuristica
 
 def return_cost_and_heuristic(nodo):
-    #print("heuristica,nodo",nodo.heuristica,nodo.costo)
     return nodo.heuristica + nodo.costo
     
 def ordenar_frontera(ordenar_heuristica):

@@ -19,9 +19,7 @@ class Mapa:
     lista_solucion_pacman = []
 
     def lista_solucion_profundidad(self,solucion):
-        
         self.lista_profundidad = solucion
-        print("aquu",self.lista_profundidad)
         
     def Pacman(self,matrizAyuda1,Solucion):
         
