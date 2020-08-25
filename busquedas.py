@@ -233,7 +233,7 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos,li
 
         lista_camino_parcial_con_grito = lista_camino_parcial_con_grito.tolist()
         lista_camino_parcial_con_grito = lista_camino_parcial_con_grito[:len(pos_gritona)-1]
-        print(lista_camino_parcial_con_grito + lista_solucion)
+        #print(lista_camino_parcial_con_grito + lista_solucion)
 
     laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca

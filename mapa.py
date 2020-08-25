@@ -25,7 +25,7 @@ class Mapa:
         
         self.lista_solucion_pacman = Solucion
         os.environ["SDL_VIDEO_CENTERED"] = "1"
-        print("Busqueda por profundidad",self.lista_profundidad)
+        #print("Busqueda por profundidad",self.lista_profundidad)
         pygame.init()
         pygame.mixer.init()
 

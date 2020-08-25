@@ -18,7 +18,7 @@ def busqueda_por_profundidad():
     grafo_enemigo.limpiar_padres()
     solucion = busqueda_profundidad("Busqueda por profundidad(DFS):")
     return solucion
-    
+
 def busqueda_profundidad(algoritmo):
 
     #Variables
