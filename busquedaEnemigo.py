@@ -67,7 +67,7 @@ def busqueda_profundidad(algoritmo):
     while actual is not None:
         costo_solucion += actual.costo
         solucion.insert(0, actual)
-        # Get the padres nodo and continue...
+        #Obtener el nodo padre
         actual = actual.padres
     
     #Imprimir los resultados

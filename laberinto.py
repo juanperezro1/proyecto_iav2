@@ -76,7 +76,7 @@ class Laberinto:
             for indice in posicion_espinaca:
                 if (solucion[0],solucion[1]) == (indice[0],indice[1]):
                     pos_espinaca_lista_solucion = lista_solucion.index(posicion_espinaca[0])
-                    pos_espinaca_lista_solucion = pos_espinaca_lista_solucion + 1
+                    pos_espinaca_lista_solucion = pos_espinaca_lista_solucion 
                     
         #Con la posición se realiza un recorte a la lista solución y se le agrega 1 despues de la espinaca
 
@@ -99,7 +99,7 @@ class Laberinto:
                     if(matriz_power_espinaca[i][j] == 1):
                         contador_poder += 0.5
                     
-            costo_con_poder = abs(-costo_solucion + contador_poder)
+            costo_con_poder = abs(-costo_solucion-1 + contador_poder)
             print("El costo con el poder de la espinaca es: ",costo_con_poder)
 
         else:

@@ -29,7 +29,7 @@ class Mapa:
         pygame.init()
         pygame.mixer.init()
 
-        print(self.lista_profundidad)
+        #print(self.lista_profundidad)
         global ventana
         ventana = pygame.display.set_mode((pixel * len(matrizAyuda1), pixel * len(matrizAyuda1)))
         ventana.fill(colorF)
@@ -95,16 +95,19 @@ class Mapa:
                 fantasma.dibujar_enemigo(ventana)
                 pygame.display.update()
 
-                if i == j:
-                    print("Has sido asesinado por un fantasma en la posición:",j)
-                    pygame.quit()
-                    sys.exit() 
-                else: 
-                    pass
-                if i == pos_sra_pacman:
-                    pygame.mixer.music.stop()
-                else:
-                    pass
+                try:
+                    if i == j:
+                        print("Has sido asesinado por un fantasma en la posición:",j)
+                        pygame.quit()
+                        sys.exit() 
+                    else: 
+                        pass
+                    if i == pos_sra_pacman:
+                        pygame.mixer.music.stop()
+                    else:
+                        pass
+                except:
+                    print()
 
                 time.sleep(0.5)
 
@@ -188,7 +191,7 @@ class Espinaca(pygame.sprite.Sprite):
 
 #Permite leer el archivo .txt (matriz camino,enemigos,inicio,meta)
 def leer_archivo():
-    archivo = open("mm.txt")
+    archivo = open("m14.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
@@ -203,7 +206,7 @@ def modificar_file(pos_inicio):
                 matriz[i][j] = 0
             
     matriz[pos_inicio[0],pos_inicio[1]] = 3
-    save = np.savetxt('mm.txt',matriz, delimiter= ' ',fmt='%d')
+    save = np.savetxt('m14.txt',matriz, delimiter= ' ',fmt='%d')
 
 
   

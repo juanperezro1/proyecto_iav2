@@ -13,17 +13,17 @@ frontera = []
 
 visitado = OrderedDict()  #Se previene que el nodo se repita, usando diccionarios
 
-def busqueda_por_profundidad():
-    grafo.limpiar_padres()
-    busqueda_profundidad("Busqueda por profundidad(DFS):")
+# def busqueda_por_profundidad():
+#     grafo.limpiar_padres()
+#     busqueda_profundidad("Busqueda por profundidad(DFS):")
 
 def busqueda_avara(lista_n):
     grafo.limpiar_padres()
-    heuristica("Busqueda avara(GBFS):", return_heuristic,lista_n)
+    heuristica("Busqueda avara(GBFS):", return_heuristica,lista_n)
 
 def busqueda_a_estrella(lista_n):
     grafo.limpiar_padres()
-    heuristica("Busqueda A estrella(A*):", return_cost_and_heuristic,lista_n)
+    heuristica("Busqueda A estrella(A*):", return_costo_y_heuristica,lista_n)
     
 def heuristica(algoritmo, ordenar_heuristica,lista_enemigo):
 
@@ -73,59 +73,59 @@ def heuristica(algoritmo, ordenar_heuristica,lista_enemigo):
     else:
         print("No se encontro una meta")
 
-def busqueda_profundidad(algoritmo):
+# def busqueda_profundidad(algoritmo):
 
-    #Variables
-    pop_index = 0
-    estado_meta = None
-    costo_solucion = 0
-    solucion = []
-    nodos_expandidos = []
+#     #Variables
+#     pop_index = 0
+#     estado_meta = None
+#     costo_solucion = 0
+#     solucion = []
+#     nodos_expandidos = []
 
-    #Se establece la condición si el Pacman no ha llegado a la meta
-    while estado_meta is None: 
+#     #Se establece la condición si el Pacman no ha llegado a la meta
+#     while estado_meta is None: 
 
-        frontera.clear()
-        visitado.clear()
-        frontera.append(grafo.raiz)
+#         frontera.clear()
+#         visitado.clear()
+#         frontera.append(grafo.raiz)
 
-        while len(frontera) > 0: 
+#         while len(frontera) > 0: 
 
-            if "DFS" in algoritmo:
-                pop_index = len(frontera) - 1
+#             if "DFS" in algoritmo:
+#                 pop_index = len(frontera) - 1
 
-            #Se remueve el nodo correcto de la frontera y se agrega a visitado
-            nodo_actual = frontera.pop(pop_index)
-            visitado[nodo_actual] = None
+#             #Se remueve el nodo correcto de la frontera y se agrega a visitado
+#             nodo_actual = frontera.pop(pop_index)
+#             visitado[nodo_actual] = None
 
-            #Detener el metodo si se ha llegado a la meta
-            if es_meta(nodo_actual):
-                estado_meta = nodo_actual
-                break
+#             #Detener el metodo si se ha llegado a la meta
+#             if es_meta(nodo_actual):
+#                 estado_meta = nodo_actual
+#                 break
 
-            #Agregar los nodos fronteras segun donde se encuentre el jugador
-            agregar_a_frontera(nodo_actual, algoritmo)
+#             #Agregar los nodos fronteras segun donde se encuentre el jugador
+#             agregar_a_frontera(nodo_actual, algoritmo)
 
-        #Se guardan todos los nodos visitado en la lista NODOS_EXPANDIDOS
-        for nodo in visitado:
-            nodos_expandidos.append(nodo)
+#         #Se guardan todos los nodos visitado en la lista NODOS_EXPANDIDOS
+#         for nodo in visitado:
+#             nodos_expandidos.append(nodo)
 
-    #Verifica si el algoritmo DFS fue exitoso
-    if estado_meta is None:
-        print("No se encontro la meta.")
-        return
+#     #Verifica si el algoritmo DFS fue exitoso
+#     if estado_meta is None:
+#         print("No se encontro la meta.")
+#         return
 
-    # We need to calculate the costo of the solucion AND get the solucion itself...
-    actual = estado_meta
+#     #Calcular si es estado actual es meta
+#     actual = estado_meta
 
-    while actual is not None:
-        costo_solucion += actual.costo
-        solucion.insert(0, actual)
-        # Get the padres nodo and continue...
-        actual = actual.padres
+#     while actual is not None:
+#         costo_solucion += actual.costo
+#         solucion.insert(0, actual)
+#         #Obtener el padre
+#         actual = actual.padres
     
-    #Imprimir los resultados
-    imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos)
+#     #Imprimir los resultados
+#     imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos)
 
 def agregar_a_frontera(nodo_actual, algoritmo):
     #Si el nodo hijo no es None y no ha sido visitado, se agrega a la frontera.
@@ -141,8 +141,8 @@ def agregar_a_frontera(nodo_actual, algoritmo):
         agregar_nodos.append(set_padres(nodo_actual, nodo_actual.arriba, algoritmo))
 
     #Se realizar reverse para acomodar los nodos 
-    if "DFS" in algoritmo:
-        agregar_nodos.reverse()
+    # if "DFS" in algoritmo:
+    #     agregar_nodos.reverse()
 
     #Se agregan los nodos a la frontera
     for nodo in agregar_nodos:
@@ -150,7 +150,7 @@ def agregar_a_frontera(nodo_actual, algoritmo):
 
 def set_padres(nodo_padre, nodo_hijo, algoritmo):
     #Se le asigna el nodo donde esta actualmente los posibles hijos que puede tener 
-    if "DFS" in algoritmo or nodo_hijo.padres is None:
+    if  nodo_hijo.padres is None: #"DFS" in algoritmo or
         nodo_hijo.padres = nodo_padre
     return nodo_hijo
 
@@ -169,8 +169,8 @@ def es_meta(nodo):
 lista_solucion = []
 lista_expandidos = []
 pos_gritona = []
-
 index_validacion = 0
+
 def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos,lista_enemigo):
 
     print(algoritmo)
@@ -233,7 +233,7 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos,li
 
         lista_camino_parcial_con_grito = lista_camino_parcial_con_grito.tolist()
         lista_camino_parcial_con_grito = lista_camino_parcial_con_grito[:len(pos_gritona)-1]
-        #print(lista_camino_parcial_con_grito + lista_solucion)
+        print(lista_camino_parcial_con_grito + lista_solucion)
 
     laberinto = Laberinto()
     #Se envia la LISTA_SOLUCION para determinar el poder espinaca
@@ -242,13 +242,13 @@ def imprimir_resultados(algoritmo, costo_solucion, solucion, nodos_expandidos,li
     pacman.lista_solucion_profundidad(lista_enemigo)
     pacman.Pacman(leer_archivo(),lista_solucion)
     
-def return_cost(nodo):
+def return_costo(nodo):
     return nodo.costo
 
-def return_heuristic(nodo):
+def return_heuristica(nodo):
     return nodo.heuristica
 
-def return_cost_and_heuristic(nodo):
+def return_costo_y_heuristica(nodo):
     return nodo.heuristica + nodo.costo
     
 def ordenar_frontera(ordenar_heuristica):

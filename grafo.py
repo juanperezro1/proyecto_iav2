@@ -64,7 +64,7 @@ class Grafo:
         else:
             if self.laberinto.beneficio[nodo.x][nodo.y] == 1:
                 #Le permite al pacman coger el beneficio (espinaca) para tener un menor costo
-                nodo.costo = -1
+                nodo.costo = -0
             else:
                 nodo.costo = 1
 
