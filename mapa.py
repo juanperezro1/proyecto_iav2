@@ -55,7 +55,6 @@ class Mapa:
                     enemigo = Jugador(i*pixel,j*pixel)
                     enemigo.dibujarJugador(ventana)
                   
-                
                 if (matrizAyuda1[i][j] == 4):
                     sra_pacman = Sra_pacman(i*pixel,j*pixel)
                     sra_pacman.dibujar_sra_pacman(ventana)
@@ -69,32 +68,60 @@ class Mapa:
                     pos_espinaca.append(i)
                     pos_espinaca.append(j)
 
+        ultimo_lista_pacman = self.lista_solucion_pacman[-1:]
+        ultimo_lista_fantasma = self.lista_profundidad[-1:]
+
+        for i in ultimo_lista_pacman:
+            self.ultimo_lista_pacman = i
+
+        for i in ultimo_lista_fantasma:
+            self.ultimo_lista_fantasma = i
+
+        if (len(self.lista_solucion_pacman) <= len(self.lista_profundidad)):
+            for i in range(len(self.lista_profundidad)):
+                self.lista_solucion_pacman.append(ultimo_lista_pacman)
+        else:
+            for i in range(len(self.lista_solucion_pacman)):
+                self.lista_profundidad.append(self.ultimo_lista_fantasma)
 
         mortal = zip(self.lista_solucion_pacman,self.lista_profundidad)
         contador = 0
 
-        for i,j in mortal:
-            
-            fantasma = Enemigo(pixel*j[0],pixel*j[1])
-            jugadorAct = Jugador(pixel*i[0],pixel*i[1])
-            
-            jugadorAct.dibujarJugador(ventana)
-            fantasma.dibujar_enemigo(ventana)
-            pygame.display.update()
+        try:
+            for i,j in mortal:
+                
+                fantasma = Enemigo(pixel*j[0],pixel*j[1])
+                jugadorAct = Jugador(pixel*i[0],pixel*i[1])
+                
+                jugadorAct.dibujarJugador(ventana)
+                fantasma.dibujar_enemigo(ventana)
+                pygame.display.update()
 
-            time.sleep(0.5)
+                if i == j:
+                    print("Has sido asesinado por un fantasma en la posición:",j)
+                    pygame.quit()
+                    sys.exit() 
+                else: 
+                    pass
+                if i == pos_sra_pacman:
+                    pygame.mixer.music.stop()
+                else:
+                    pass
 
-            if contador < len(self.lista_solucion_pacman) - 1:
-                rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
-                #actualizarJugador(jugadorAct,ventana)
-                pygame.draw.rect(ventana,colorF,rectangulo)
+                time.sleep(0.5)
 
-                rectangulo2 = pygame.Rect(pixel*j[1],pixel*j[0],pixel,pixel)
-                #actualizarEnemigo(fantasma,ventana)
-                pygame.draw.rect(ventana,colorF,rectangulo2)
+                if contador < len(self.lista_solucion_pacman) - 1:
+                    rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
+                    pygame.draw.rect(ventana,colorF,rectangulo)
+
+                    rectangulo2 = pygame.Rect(pixel*j[1],pixel*j[0],pixel,pixel)
+                    pygame.draw.rect(ventana,colorF,rectangulo2)
         
-        pygame.display.set_caption("Pacman Univalle")       
-        pygame.display.update()
+            pygame.display.set_caption("Pacman Univalle")       
+            pygame.display.update()
+        
+        except:
+            print("")
 
         while True:
             for evento in pygame.event.get():
@@ -102,51 +129,12 @@ class Mapa:
                     pygame.quit()
                     sys.exit()
     
-    def movimiento_fantasma(self):
-        global ventana
-        
-        for i in self.lista_profundidad:
-            fantasma = Enemigo(pixel*i[0],pixel*i[1])
-            time.sleep(0.5)
-            rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
-            actualizarEnemigo(fantasma,ventana)
-            pygame.draw.rect(ventana,colorF,rectangulo)
-
-    
-    def movimiento_pacman(self):
-        global ventana
-        for i in self.lista_solucion_pacman:
-            """
-            for y in pos_enemigo:
-                if i == y:
-                    print("Has sido asesinado por un fantasma en la posición:",y)
-                    pygame.quit()
-                    sys.exit() 
-                else: 
-                    pass
-            if i == pos_sra_pacman:
-                pygame.mixer.music.stop()
-            else:
-                pass
-            """            
-            jugadorAct = Jugador(pixel*i[0],pixel*i[1])
-            time.sleep(0.5) ####****####
-            rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
-            actualizarJugador(jugadorAct,ventana)
-            pygame.draw.rect(ventana,colorF,rectangulo)
-
-        
 def actualizarJugador(jugador,superficie):
     jugador.dibujarJugador(superficie)
-    #pygame.display.update()
 
 def actualizarEnemigo(enemigo,superficie):
     enemigo.dibujar_enemigo(superficie)
-    #pygame.display.update()
-
-
-#Se crea la clase MUROy el constructor
-
+    
 class Muro(pygame.sprite.Sprite):
     def __init__(self, posX, posY):
         self.imagenMuro = pygame.image.load("recursos/muro.jpg")
@@ -202,7 +190,7 @@ class Espinaca(pygame.sprite.Sprite):
 
 #Permite leer el archivo .txt (matriz camino,enemigos,inicio,meta)
 def leer_archivo():
-    archivo = open("m12.txt")
+    archivo = open("mm.txt")
     matriz = np.loadtxt(archivo, dtype=int, skiprows=0)
     archivo.close()
     matriz = np.asarray(matriz)
@@ -210,143 +198,14 @@ def leer_archivo():
     return matriz
 
 def modificar_file(pos_inicio):
-
     matriz = leer_archivo()
-
     for i in range(len(matriz)):
         for j in range(len(matriz)):
             if (matriz[i][j] == 3):
                 matriz[i][j] = 0
             
     matriz[pos_inicio[0],pos_inicio[1]] = 3
+    save = np.savetxt('mm.txt',matriz, delimiter= ' ',fmt='%d')
 
-"""
-def Fantasma(matrizAyuda1,Solucion):
 
-    os.environ["SDL_VIDEO_CENTERED"] = "1"
-    pygame.init()
-    pygame.mixer.init()
-    
-    ventana = pygame.display.set_mode((pixel * len(matrizAyuda1), pixel * len(matrizAyuda1)))
-    ventana.fill(colorF)
-
-    pos_enemigo = []
-    pos_sra_pacman = []
-    pos_espinaca = []
-    
-    for i in range(len(matrizAyuda1)):
-        for j in range(len(matrizAyuda1)):
-            if (matrizAyuda1[i][j] == 1):
-                muro = Muro(i * pixel, j * pixel)
-                muro.dibujarMuro(ventana)
-
-            if (matrizAyuda1[i][j] == 2):
-                enemigo = Enemigo(i*pixel,j*pixel)
-                enemigo.dibujar_enemigo(ventana)
-                pos_enemigo.append([i,j])
-            
-            if (matrizAyuda1[i][j] == 4):
-                sra_pacman = Sra_pacman(i*pixel,j*pixel)
-                sra_pacman.dibujar_sra_pacman(ventana)
-                pos_sra_pacman.append(i)
-                pos_sra_pacman.append(j)
-                #print(pos_sra_pacman)
-                
-            if (matrizAyuda1[i][j] == 5):
-                espinaca = Espinaca(i*pixel,j*pixel)
-                espinaca.dibujar_espinaca(ventana)
-                pos_espinaca.append(i)
-                pos_espinaca.append(j)
-     
-    pygame.display.set_caption("Pacman Univalle")       
-    pygame.display.update()
-
-    for i in Solucion:
-
-        enemigo = Enemigo(pixel*i[0],pixel*i[1])  
-        time.sleep(0.5)
-        rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)   
-        actualizarEnemigo(enemigo,ventana)
-        pygame.draw.rect(ventana,colorF,rectangulo)
-
-    while True:
-        for evento in pygame.event.get():
-            if evento.type == QUIT:
-                pygame.quit()
-                sys.exit()
-
-def Pacman(matrizAyuda1,Solucion):
-    os.environ["SDL_VIDEO_CENTERED"] = "1"
-    pygame.init()
-    pygame.mixer.init()
-    
-    ventana = pygame.display.set_mode((pixel * len(matrizAyuda1), pixel * len(matrizAyuda1)))
-    ventana.fill(colorF)
-
-    pos_enemigo = []
-    pos_sra_pacman = []
-    pos_espinaca = []
-    
-    for i in range(len(matrizAyuda1)):
-        for j in range(len(matrizAyuda1)):
-            if (matrizAyuda1[i][j] == 1):
-                muro = Muro(i * pixel, j * pixel)
-                muro.dibujarMuro(ventana)
-
-            if (matrizAyuda1[i][j] == 2):
-                enemigo = Enemigo(i*pixel,j*pixel)
-                enemigo.dibujar_enemigo(ventana)
-                pos_enemigo.append([i,j])
-            
-            if (matrizAyuda1[i][j] == 4):
-                sra_pacman = Sra_pacman(i*pixel,j*pixel)
-                sra_pacman.dibujar_sra_pacman(ventana)
-                pos_sra_pacman.append(i)
-                pos_sra_pacman.append(j)
-                #print(pos_sra_pacman)
-                
-            if (matrizAyuda1[i][j] == 5):
-                espinaca = Espinaca(i*pixel,j*pixel)
-                espinaca.dibujar_espinaca(ventana)
-                pos_espinaca.append(i)
-                pos_espinaca.append(j)
-     
-    pygame.display.set_caption("Pacman Univalle")       
-    pygame.display.update()
-
-    for i in Solucion:
-        
-        for y in pos_enemigo:
-            if i == y:
-                print("Has sido asesinado por un fantasma en la posición:",y)
-                pygame.quit()
-                sys.exit() 
-            else: 
-                pass
-        if i == pos_sra_pacman:
-            pygame.mixer.music.stop()
-        else:
-            pass
-                  
-        jugadorAct = Jugador(pixel*i[0],pixel*i[1])
-        time.sleep(0.5) ###############################################
-        rectangulo = pygame.Rect(pixel*i[1],pixel*i[0],pixel,pixel)
-        actualizarJugador(jugadorAct,ventana)
-        pygame.draw.rect(ventana,colorF,rectangulo)
-
-    while True:
-        for evento in pygame.event.get():
-            if evento.type == QUIT:
-                pygame.quit()
-                sys.exit()
-        
-def actualizarJugador(jugador,superficie):
-        jugador.dibujarJugador(superficie)
-        pygame.display.update()
-
-def actualizarEnemigo(enemigo,superficie):
-        enemigo.dibujar_enemigo(superficie)
-        pygame.display.update()
-
-"""
   
