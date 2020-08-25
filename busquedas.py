@@ -17,9 +17,9 @@ def busqueda_por_profundidad():
     grafo.limpiar_padres()
     busqueda_profundidad("Busqueda por profundidad(DFS):")
 
-def busqueda_avara():
+def busqueda_avara(lista_n):
     grafo.limpiar_padres()
-    heuristica("Busqueda avara(GBFS):", return_heuristic)
+    heuristica("Busqueda avara(GBFS):", return_heuristic,lista_n)
 
 def busqueda_a_estrella(lista_n):
     grafo.limpiar_padres()
